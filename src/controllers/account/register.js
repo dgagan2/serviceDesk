@@ -1,10 +1,12 @@
 import { v4 as uuidv4 } from 'uuid'
 import prisma from '../../config/prismaInitialize.js'
 import { encryptPassword } from '../../utils/ encryptPassword.js'
+
+// Register new user
 export const register = async (req, res) => {
   const { password } = req.body
-  const id = uuidv4()
-  const hashPassword = await encryptPassword(password)
+  const id = uuidv4() // Generate an ID for the new user
+  const hashPassword = await encryptPassword(password)// encrypt the password
 
   try {
     const newUser = await createUser(id, req.body, hashPassword)
@@ -13,7 +15,7 @@ export const register = async (req, res) => {
     return res.status(500).json({ message: 'No se creo el usuario', error })
   }
 }
-
+// It connects to the database through prism and the user is created
 async function createUser (id, data, password) {
   const { name, email, idDepartment, idRole, idState } = data
   const newUser = await prisma.person.create({
@@ -45,6 +47,6 @@ async function createUser (id, data, password) {
         : undefined
     }
   })
-  delete newUser.password
+  delete newUser.password // Remove password from object newUser before returning it
   return newUser
 }
