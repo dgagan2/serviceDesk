@@ -1,5 +1,10 @@
+import { loginRoute } from './loginRoute.js'
+import { registerRoute } from './registerRoute.js'
+
 export const routerApi = (app) => {
-  app.get('/home', (req, res) => {
-    res.send('Hola')
+  app.get('/', (req, res) => {
+    res.send('ServiceDesk')
   })
+  app.use('/account/login', loginRoute)
+  app.use('/account/register', registerRoute)
 }
