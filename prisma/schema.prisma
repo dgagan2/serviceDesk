@@ -13,7 +13,7 @@ model department {
   person         person[]
   ticket         ticket[]
 
-  @@unique([nameDepartment, nameDepartment], map: "nameDepartment")
+  @@unique([nameDepartment], map: "nameDepartment")
   @@map(" department")
 }
 
@@ -56,7 +56,7 @@ model person {
   ticket_ticket_idAgentToperson ticket[]    @relation("ticket_idAgentToperson")
   ticket_ticket_idUserToperson  ticket[]    @relation("ticket_idUserToperson")
 
-  @@unique([email, email], map: "email")
+  @@unique([email], map: "email")
 }
 
 model roleUser {
