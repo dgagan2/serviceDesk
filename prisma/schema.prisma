@@ -94,3 +94,5 @@ model ticket {
   stateTicket                   stateTicket? @relation(fields: [idStateTicket], references: [id], onDelete: NoAction, onUpdate: NoAction)
   person_ticket_idUserToperson  person?      @relation("ticket_idUserToperson", fields: [idUser], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
+
+
