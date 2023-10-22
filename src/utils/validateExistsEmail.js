@@ -6,7 +6,7 @@ async function validateExistsEmail (email) {
       email
     }
   })
-  return existingUser !== null
+  return existingUser
 }
 
 export default validateExistsEmail
