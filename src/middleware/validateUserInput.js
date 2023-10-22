@@ -7,7 +7,6 @@ export const validateUserInput = (req, res, next) => {
   const { email, password } = req.body
   if (!email || !password) return res.status(400).json({ message: 'Email and password are required' })
   if (!validateEmail(email)) return res.status(400).json({ message: 'Correo no valido' })
-  if (!validatePassword(password)) return res.status(400).json({ message: 'Contraseña no valida' })
   next()
 }
 
@@ -15,6 +14,7 @@ export const validateUserInput = (req, res, next) => {
 export const validateUserInputRegister = async (req, res, next) => {
   const { name, email, password } = req.body
   if (!name || !email || !password) return res.status(500).json({ message: 'Campos obligatorios vacios' })
+  if (!validatePassword(password)) return res.status(400).json({ message: 'Contraseña no valida' })
   try {
     const existsEmail = await validateExistsEmail(email)// Validates if the email exists and return a message.
     if (existsEmail) return res.status(400).json({ message: 'Usuario ya existe' })
