@@ -10,6 +10,6 @@ export const routerApi = (app) => {
   app.use('/account/login', loginRoute)
   app.use('/account/register', registerRoute)
   app.use('/user', userRoutes)
-  app.use('/deparment', departmentRoute)
+  app.use('/department', departmentRoute)
   app.get('*', (req, res) => { res.status(404) })
 }
