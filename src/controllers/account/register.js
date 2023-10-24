@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 import { v4 as uuidv4 } from 'uuid'
 import prisma from '../../config/prismaInitialize.js'
 import { encryptPassword } from '../../utils/ encryptPassword.js'
@@ -18,35 +19,39 @@ export const register = async (req, res) => {
 // It connects to the database through prism and the user is created
 async function createUser (id, data, password) {
   const { name, email, idDepartment, idRole, idState } = data
-  const newUser = await prisma.person.create({
-    data: {
-      id,
-      name,
-      email,
-      password,
-      department: idDepartment
-        ? {
-            connect: {
-              id: idDepartment
+  try {
+    const newUser = await prisma.person.create({
+      data: {
+        id,
+        name,
+        email,
+        password,
+        department: idDepartment
+          ? {
+              connect: {
+                id: Number(idDepartment)
+              }
             }
-          }
-        : undefined,
-      roleUser: idRole
-        ? {
-            connect: {
-              idRole
+          : undefined,
+        roleUser: idRole
+          ? {
+              connect: {
+                idRole: Number(idRole)
+              }
             }
-          }
-        : undefined,
-      stateUser: idState
-        ? {
-            connect: {
-              idState
+          : undefined,
+        stateUser: idState
+          ? {
+              connect: {
+                idState: Number(idState)
+              }
             }
-          }
-        : undefined
-    }
-  })
-  delete newUser.password // Remove password from object newUser before returning it
-  return newUser
+          : undefined
+      }
+    })
+    delete newUser.password // Remove password from object newUser before returning it
+    return newUser
+  } catch (error) {
+    throw error
+  }
 }
