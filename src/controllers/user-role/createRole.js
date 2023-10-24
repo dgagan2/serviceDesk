@@ -7,9 +7,9 @@ export const createRole = async (req, res) => {
   if (!nameRole) return res.status(400).json({ message: 'Debe ingresar el nombre del Rol' })
   try {
     if (await searchRole(nameRole)) return res.status(409).json({ message: 'El rol ya existe' })
-    const newState = await addNewRole(nameRole)
+    const newRole = await addNewRole(nameRole)
 
-    res.status(201).json({ message: 'Rol creado', newState })
+    res.status(201).json({ message: 'Rol creado', newRole })
   } catch (error) {
     res.json(error)
   }
