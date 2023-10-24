@@ -16,6 +16,7 @@ export const login = async (req, res) => {
   }
 }
 
+// Realiza validaciones si el correo existe, la contraseña coincide y el usuario esta activo
 const AuthenticationService = async (email, password, res) => {
   try {
     const user = await validateExistsEmail(email)
@@ -31,11 +32,13 @@ const AuthenticationService = async (email, password, res) => {
   }
 }
 
+// Valida que las contraseñas sea igual
 const validateEqualPasswords = async (passwordSent, storedPassword) => {
   const equalPassword = await bcrypt.compare(passwordSent, storedPassword)
   return equalPassword
 }
 
+// Valida que el usuario este activo
 const validateUserIsActive = async (idState) => {
   if (!idState) return false
   try {
