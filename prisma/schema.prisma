@@ -37,7 +37,7 @@ model itemService {
   id              Int             @id @default(autoincrement())
   nameItem        String?         @unique @db.VarChar
   idCategory      Int?
-  categoryService categoryService @relation(fields: [id], references: [idItem], onDelete: SetNull, onUpdate: NoAction)
+  categoryService categoryService @relation(fields: [id], references: [idItem], onDelete: NoAction, onUpdate: NoAction)
   ticket          ticket[]
 }
 
