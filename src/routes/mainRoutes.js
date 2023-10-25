@@ -1,3 +1,4 @@
+import { protect } from '../middleware/auth.handler.js'
 import { categoryServiceRoute } from './categoryServiceRoute.js'
 import { departmentRoute } from './departmentRoute.js'
 import { loginRoute } from './loginRoute.js'

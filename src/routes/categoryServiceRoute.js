@@ -1,8 +1,8 @@
 import express from 'express'
-import { getAllCategories, getCategoryById, getCategoryByItem, getCategoryByName } from '../controllers/category/getCategory'
-import { createCategory } from '../controllers/category/createCategory'
-import { updateCategory } from '../controllers/category/updateCategory'
-import { deleteCategory } from '../controllers/category/deleteCategory'
+import { getAllCategories, getCategoryById, getCategoryByItem, getCategoryByName } from '../controllers/category/getCategory.js'
+import { createCategory } from '../controllers/category/createCategory.js'
+import { updateCategory } from '../controllers/category/updateCategory.js'
+import { deleteCategory } from '../controllers/category/deleteCategory.js'
 
 export const categoryServiceRoute = express.Router()
 

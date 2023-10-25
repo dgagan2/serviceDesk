@@ -23,6 +23,7 @@ const deleteCategoryFromDatabase = async (idCategory, res) => {
     })
     res.status(200).json({ message: 'Deleted category' })
   } catch (error) {
+    console.log('error', error)
     res.status(500).json({ message: 'No se pudo eliminar', error })
   }
 }

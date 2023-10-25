@@ -55,13 +55,15 @@ export const getCategoryById = async (req, res) => {
 // Searches for a department by ID in the database.
 export const searchcategoryId = async (idCategory) => {
   try {
-    const category = await prisma.department.findUnique({
+    const category = await prisma.categoryService.findUnique({
       where: {
         idCategory: Number(idCategory)
       }
     })
+    console.log('category', category)
     return category
   } catch (error) {
+    console.log('error', error)
     throw error
   }
 }
@@ -100,7 +102,7 @@ export const searchItem = async (idItem) => {
 // Retrieves all departments from the database.
 export const getAllCategories = async (req, res) => {
   try {
-    const category = await prisma.department.findMany({})
+    const category = await prisma.categoryService.findMany({})
     res.status(200).json(category)
   } catch (error) {
     res.satus(500).json({ message: 'Something went wrong', error })
