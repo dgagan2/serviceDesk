@@ -24,12 +24,10 @@ const AuthenticationService = async (email, password, res) => {
     const equalPassword = await validateEqualPasswords(password, user.password)
     if (!equalPassword) return res.status(401).json({ message: 'Usuario o Contraseña incorrectos' })
     const isActive = await validateUserIsActive(user.idState)
-    console.log('isActive', isActive)
     if (!isActive) return res.status(404).json({ message: 'Usuario deshabilitado' })
     delete user.password
     return user
   } catch (error) {
-    console.log('error', error)
     throw error
   }
 }
@@ -49,7 +47,7 @@ const validateUserIsActive = async (idState) => {
         idState
       }
     })
-    console.log(state.nameState === 'active')
+
     return state.nameState === 'active'
   } catch (error) {
     return false
