@@ -1,3 +1,4 @@
+import { protect } from '../middleware/auth.handler.js'
 import { categoryServiceRoute } from './categoryServiceRoute.js'
 import { departmentRoute } from './departmentRoute.js'
 import { loginRoute } from './loginRoute.js'
@@ -15,5 +16,5 @@ export const routerApi = (app) => {
   app.use('/department', departmentRoute)
   app.use('/ticket', ticketRoute)
   app.use('/category', categoryServiceRoute)
-  app.use('*', (req, res) => { res.status(404).send('Not Found') })
+  app.get('*', (req, res) => { res.status(404) })
 }

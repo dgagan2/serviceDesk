@@ -9,18 +9,16 @@ datasource db {
 
 model department {
   id             Int      @id @default(autoincrement())
-  nameDepartment String   @db.VarChar
+  nameDepartment String   @unique(map: "nameDepartment") @db.VarChar
   person         person[]
   ticket         ticket[]
 
-  @@unique([nameDepartment], map: "nameDepartment")
   @@map(" department")
 }
 
 model categoryService {
   idCategory   Int          @id @default(autoincrement())
   nameCategory String       @unique @db.VarChar(70)
-  idItem       Int?         @unique(map: "idItem")
   itemService  itemService?
 }
 
@@ -37,14 +35,14 @@ model itemService {
   id              Int             @id @default(autoincrement())
   nameItem        String?         @unique @db.VarChar
   idCategory      Int?
-  categoryService categoryService @relation(fields: [id], references: [idItem], onDelete: NoAction, onUpdate: NoAction)
+  categoryService categoryService @relation(fields: [id], references: [idCategory], onDelete: NoAction, onUpdate: NoAction)
   ticket          ticket[]
 }
 
 model person {
   id                            String      @id @db.VarChar
   name                          String
-  email                         String
+  email                         String      @unique(map: "email")
   idDepartment                  Int?
   idRole                        Int?
   idState                       Int?
@@ -55,8 +53,6 @@ model person {
   stateUser                     stateUser?  @relation(fields: [idState], references: [idState], onDelete: NoAction, onUpdate: NoAction)
   ticket_ticket_idAgentToperson ticket[]    @relation("ticket_idAgentToperson")
   ticket_ticket_idUserToperson  ticket[]    @relation("ticket_idUserToperson")
-
-  @@unique([email], map: "email")
 }
 
 model roleUser {
@@ -83,7 +79,7 @@ model ticket {
   idUser                        String?      @db.VarChar
   idDepartment                  Int?
   idItem                        Int?
-  creationDate                  DateTime?    @db.Date
+  creationDate                  DateTime     @default(dbgenerated("CURRENT_DATE")) @db.Date
   idStateTicket                 Int?
   idComment                     Int?
   idAgent                       String?      @db.VarChar
@@ -94,5 +90,3 @@ model ticket {
   stateTicket                   stateTicket? @relation(fields: [idStateTicket], references: [id], onDelete: NoAction, onUpdate: NoAction)
   person_ticket_idUserToperson  person?      @relation("ticket_idUserToperson", fields: [idUser], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
-
-

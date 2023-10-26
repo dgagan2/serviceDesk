@@ -12,7 +12,6 @@ export const login = async (req, res) => {
     const token = getToken(user)
     res.status(200).json({ user, token })
   } catch (error) {
-    console.log('error', error)
     res.status(500).json({ message: 'Usuario o Contraseña incorrectos', error })
   }
 }
@@ -25,7 +24,7 @@ const AuthenticationService = async (email, password, res) => {
     const equalPassword = await validateEqualPasswords(password, user.password)
     if (!equalPassword) return res.status(401).json({ message: 'Usuario o Contraseña incorrectos' })
     const isActive = await validateUserIsActive(user.idState)
-    if (!isActive) return res.status(401).json({ message: 'Usuario Deshabilitado' })
+    if (!isActive) return res.status(404).json({ message: 'Usuario deshabilitado' })
     delete user.password
     return user
   } catch (error) {
@@ -48,6 +47,7 @@ const validateUserIsActive = async (idState) => {
         idState
       }
     })
+
     return state.nameState === 'active'
   } catch (error) {
     return false

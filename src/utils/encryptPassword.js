@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 import bcrypt from 'bcrypt'
 
 export const encryptPassword = async (password) => {
@@ -6,6 +7,6 @@ export const encryptPassword = async (password) => {
     const hashedPassword = await bcrypt.hash(password, salt)
     return hashedPassword
   } catch (error) {
-    console.log('Error encrypting password', error)
+    throw error
   }
 }
