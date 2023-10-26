@@ -60,10 +60,8 @@ export const searchcategoryId = async (idCategory) => {
         idCategory: Number(idCategory)
       }
     })
-    console.log('category', category)
     return category
   } catch (error) {
-    console.log('error', error)
     throw error
   }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 import prisma from '../../config/prismaInitialize.js'
 import { searchcategoryId } from '../category/getCategory.js'
 import { searchService } from './getServiceItem.js'
@@ -9,10 +10,8 @@ export const createServiceItem = async (req, res) => {
   try {
     if (await searchService(nameItem)) return res.status(409).json({ message: 'El servicio ya existe' })
     const existCategory = await searchcategoryId(idCategory)
-    console.log('existCategory', await existCategory)
     if (!existCategory) return res.status(404).json({ message: 'La categoria no existe' })
     const newItem = await addNewService(nameItem, idCategory)
-    console.log('newItem', newItem)
     res.status(201).json({ message: 'Estado creado', newItem })
   } catch (error) {
     res.status(500).json({ message: 'Something went worng', error })
@@ -32,10 +31,8 @@ const addNewService = async (nameItem, idCategory) => {
         }
       }
     })
-    console.log('service', service)
     return service
   } catch (error) {
-    console.log('error', error)
     throw error
   }
 }
