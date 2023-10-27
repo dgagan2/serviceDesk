@@ -7,28 +7,18 @@ import { getToken } from './getToken.js'
 export const login = async (req, res) => {
   const { email, password } = req.body
   try {
-    const user = await AuthenticationService(email, password, res)
-
-    const token = getToken(user)
-    res.status(200).json({ user, token })
-  } catch (error) {
-    res.status(500).json({ message: 'Usuario o Contraseña incorrectos', error })
-  }
-}
-
-// Realiza validaciones si el correo existe, la contraseña coincide y el usuario esta activo
-const AuthenticationService = async (email, password, res) => {
-  try {
     const user = await validateExistsEmail(email)
-    if (!user) return res.status(404).json({ message: 'Usuario no existe' })
+    if (!user) return res.status(403).json({ message: 'Usuario no existe' })
     const equalPassword = await validateEqualPasswords(password, user.password)
     if (!equalPassword) return res.status(401).json({ message: 'Usuario o Contraseña incorrectos' })
     const isActive = await validateUserIsActive(user.idState)
     if (!isActive) return res.status(404).json({ message: 'Usuario deshabilitado' })
     delete user.password
-    return user
+
+    const token = getToken(user)
+    res.status(200).json({ user, token })
   } catch (error) {
-    throw error
+    res.status(500).json({ message: 'Usuario o Contraseña incorrectos', error })
   }
 }
 
