@@ -34,6 +34,7 @@ model comment {
 model itemService {
   id              Int             @id @default(autoincrement())
   nameItem        String?         @unique @db.VarChar
+  itemImage       String?        
   idCategory      Int?
   categoryService categoryService @relation(fields: [id], references: [idCategory], onDelete: NoAction, onUpdate: NoAction)
   ticket          ticket[]
