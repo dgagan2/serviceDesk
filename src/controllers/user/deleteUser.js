@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 import prisma from '../../config/prismaInitialize.js'
 import { searchUserInDataBaseById } from './getUsers.js'
 
@@ -10,6 +11,7 @@ export const deleteUser = async (req, res) => {
 
     await deleteUserFromDatabase(id, res)
   } catch (error) {
+    console.log('error', error)
     res.status(500).json({ message: 'No se pudo eliminar', error })
   }
 }
@@ -23,6 +25,6 @@ const deleteUserFromDatabase = async (id, res) => {
     })
     res.status(200).json({ message: 'Deleted user' })
   } catch (error) {
-    res.status(500).json({ message: 'No se pudo eliminar', error })
+    throw error
   }
 }
