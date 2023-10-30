@@ -63,11 +63,12 @@ export const searchState = async (nameState) => {
   }
 }
 
+// Retrieves all state user data from a database using Prisma ORM and returns it as a JSON response.
 export const getAllState = async (req, res) => {
   try {
     const state = await prisma.stateUser.findMany({})
-    res.status(200).json(state)
+    return res.status(200).json(state)
   } catch (error) {
-    res.satus(500).json({ message: 'Something went wrong', error })
+    return res.satus(500).json({ message: 'Something went wrong', error })
   }
 }
