@@ -11,6 +11,26 @@ export const searchUserInDataBaseById = async (id) => {
     const user = await prisma.person.findUnique({
       where: {
         id
+      },
+      include: {
+        roleUser: {
+          select: {
+            idRole: true,
+            nameRole: true
+          }
+        },
+        stateUser: {
+          select: {
+            idState: true,
+            nameState: true
+          }
+        },
+        department: {
+          select: {
+            id: true,
+            nameDepartment: true
+          }
+        }
       }
     })
     return user
@@ -30,7 +50,29 @@ export const getAllUsers = async (req, res) => {
 
 const searchAllUserInDataBase = async () => {
   try {
-    const user = await prisma.person.findMany({})
+    const user = await prisma.person.findMany({
+      include: {
+        roleUser: {
+          select: {
+            idRole: true,
+            nameRole: true
+          }
+        },
+        stateUser: {
+          select: {
+            idState: true,
+            nameState: true
+          }
+        },
+        department: {
+          select: {
+            id: true,
+            nameDepartment: true
+          }
+        }
+      }
+    })
+
     return user
   } catch (error) {
     throw error
