@@ -11,7 +11,6 @@ export const deleteUser = async (req, res) => {
 
     await deleteUserFromDatabase(id, res)
   } catch (error) {
-    console.log('error', error)
     res.status(500).json({ message: 'No se pudo eliminar', error })
   }
 }

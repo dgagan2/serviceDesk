@@ -162,7 +162,6 @@ const searchUserByRoleDatabase = async (idRole) => {
       return false
     }
   } catch (error) {
-    console.log('error', error)
     throw error
   }
 }

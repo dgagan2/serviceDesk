@@ -12,7 +12,6 @@ export const uploadImage = async (req, res) => {
       return res.status(400).json({ message: 'Debe cargar la imagen' })
     }
   } catch (error) {
-    console.log('error', error)
-    return res.status(500).json({ message: 'Debe cargar la imagen', error })
+    return res.status(500).json({ message: 'Something went wrong', error })
   }
 }
