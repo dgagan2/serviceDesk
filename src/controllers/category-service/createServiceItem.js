@@ -14,14 +14,12 @@ export const createServiceItem = async (req, res) => {
     const newItem = await addNewService(nameItem, idCategory, itemImage)
     res.status(201).json({ message: 'Estado creado', newItem })
   } catch (error) {
-    console.log('error', error)
     res.status(500).json({ message: 'Something went worng', error })
   }
 }
 
 // Adds a new state to the database.
 const addNewService = async (nameItem, idCategory, itemImage) => {
-  console.log(nameItem, idCategory, itemImage)
   try {
     const service = await prisma.itemService.create({
       data: {
