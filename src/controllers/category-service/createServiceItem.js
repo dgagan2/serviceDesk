@@ -21,6 +21,7 @@ export const createServiceItem = async (req, res) => {
 
 // Adds a new state to the database.
 const addNewService = async (nameItem, idCategory, itemImage) => {
+  console.log(nameItem, idCategory, itemImage)
   try {
     const service = await prisma.itemService.create({
       data: {

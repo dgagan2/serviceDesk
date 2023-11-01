@@ -38,6 +38,14 @@ export const searchServiceId = async (id) => {
     const service = await prisma.itemService.findUnique({
       where: {
         id: Number(id)
+      },
+      include: {
+        categoryService: {
+          select: {
+            idCategory: true,
+            nameCategory: true
+          }
+        }
       }
     })
     return service
@@ -52,6 +60,14 @@ export const searchService = async (nameItem) => {
         contains: nameItem,
         mode: 'insensitive'
       }
+    },
+    include: {
+      categoryService: {
+        select: {
+          idCategory: true,
+          nameCategory: true
+        }
+      }
     }
   })
   if (exist.length > 0) {
@@ -63,7 +79,16 @@ export const searchService = async (nameItem) => {
 
 export const getAllItems = async (req, res) => {
   try {
-    const service = await prisma.itemService.findMany({})
+    const service = await prisma.itemService.findMany({
+      include: {
+        categoryService: {
+          select: {
+            idCategory: true,
+            nameCategory: true
+          }
+        }
+      }
+    })
     res.status(200).json(service)
   } catch (error) {
     res.satus(500).json({ message: 'Something went wrong', error })
