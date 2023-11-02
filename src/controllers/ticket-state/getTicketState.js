@@ -13,7 +13,7 @@ export const getTicketStateByName = async (req, res) => {
       res.status(404).json({ message: 'No se encontro el estado' })
     }
   } catch (error) {
-    res.satus(500).json({ message: 'Something went wrong', error })
+    res.status(500).json({ message: 'Something went wrong', error })
   }
 }
 
@@ -66,6 +66,6 @@ export const getAllTicketState = async (req, res) => {
     const state = await prisma.stateTicket.findMany({})
     res.status(200).json(state)
   } catch (error) {
-    res.satus(500).json({ message: 'Something went wrong', error })
+    res.status(500).json({ message: 'Something went wrong', error })
   }
 }

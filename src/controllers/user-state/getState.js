@@ -14,7 +14,7 @@ export const getStateByName = async (req, res) => {
       res.status(404).json({ message: 'No se encontro el estado' })
     }
   } catch (error) {
-    res.satus(500).json({ message: 'Something went wrong', error })
+    res.status(500).json({ message: 'Something went wrong', error })
   }
 }
 
@@ -69,6 +69,6 @@ export const getAllState = async (req, res) => {
     const state = await prisma.stateUser.findMany({})
     return res.status(200).json(state)
   } catch (error) {
-    return res.satus(500).json({ message: 'Something went wrong', error })
+    return res.status(500).json({ message: 'Something went wrong', error })
   }
 }

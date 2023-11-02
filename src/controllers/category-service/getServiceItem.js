@@ -13,7 +13,7 @@ export const getServiceItem = async (req, res) => {
       res.status(404).json({ message: 'No se encontro el servicio' })
     }
   } catch (error) {
-    res.satus(500).json({ message: 'Something went wrong', error })
+    res.status(500).json({ message: 'Something went wrong', error })
   }
 }
 
@@ -92,6 +92,30 @@ export const getAllItems = async (req, res) => {
 
     res.status(200).json(service)
   } catch (error) {
-    res.satus(500).json({ message: 'Something went wrong', error })
+    res.status(500).json({ message: 'Something went wrong', error })
+  }
+}
+
+export const getItemsByCategory = async (req, res) => {
+  const { idCategory } = req.query
+  if (!idCategory) return res.status(400).json({ message: 'Empty Id Category' })
+  try {
+    const service = await prisma.itemService.findMany({
+      where: {
+        idCategory: Number(idCategory)
+      },
+      include: {
+        categoryService: {
+          select: {
+            idCategory: true,
+            nameCategory: true
+          }
+        }
+      }
+    })
+
+    res.status(200).json(service)
+  } catch (error) {
+    res.status(500).json({ message: 'Something went wrong', error })
   }
 }

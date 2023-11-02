@@ -45,7 +45,7 @@ export const searchUser = async (req, res) => {
       return res.status(404).json({ message: 'No se encontro el usuario' })
     }
   } catch (error) {
-    return res.satus(500).json({ message: 'Something went wrong', error })
+    return res.status(500).json({ message: 'Something went wrong', error })
   }
 }
 

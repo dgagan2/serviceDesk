@@ -13,7 +13,7 @@ export const getRoleByName = async (req, res) => {
       res.status(404).json({ message: 'No se encontro el rol' })
     }
   } catch (error) {
-    res.satus(500).json({ message: 'Something went wrong', error })
+    res.status(500).json({ message: 'Something went wrong', error })
   }
 }
 
@@ -67,6 +67,6 @@ export const getAllRole = async (req, res) => {
     const role = await prisma.roleUser.findMany({})
     res.status(200).json(role)
   } catch (error) {
-    res.satus(500).json({ message: 'Something went wrong', error })
+    res.status(500).json({ message: 'Something went wrong', error })
   }
 }

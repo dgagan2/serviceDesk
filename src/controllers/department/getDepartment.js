@@ -14,7 +14,7 @@ export const getDepartmetByName = async (req, res) => {
       res.status(404).json({ message: 'Department not found' })
     }
   } catch (error) {
-    res.satus(500).json({ message: 'Something went wrong', error })
+    res.status(500).json({ message: 'Something went wrong', error })
   }
 }
 
@@ -73,6 +73,6 @@ export const getAllDepartment = async (req, res) => {
     const department = await prisma.department.findMany({})
     res.status(200).json(department)
   } catch (error) {
-    res.satus(500).json({ message: 'Something went wrong', error })
+    res.status(500).json({ message: 'Something went wrong', error })
   }
 }
