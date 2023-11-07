@@ -78,3 +78,21 @@ const searchAllUserInDataBase = async () => {
     throw error
   }
 }
+
+export const personsWithAgentRole = async () => {
+  try {
+    const agent = await prisma.person.findMany({
+      where: {
+        roleUser: {
+          nameRole: 'agent'
+        }
+      },
+      include: {
+        roleUser: true
+      }
+    })
+    return agent
+  } catch (error) {
+    throw error
+  }
+}

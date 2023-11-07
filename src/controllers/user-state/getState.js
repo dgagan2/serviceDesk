@@ -72,3 +72,16 @@ export const getAllState = async (req, res) => {
     return res.status(500).json({ message: 'Something went wrong', error })
   }
 }
+
+export const searchIdState = async (nameState) => {
+  const state = await prisma.stateTicket.findMany({
+    where: {
+      nameState
+    }
+  })
+  if (state.length > 0) {
+    return state[0].id
+  } else {
+    return false
+  }
+}
