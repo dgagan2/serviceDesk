@@ -33,8 +33,9 @@ model comment {
 
 model itemService {
   id              Int             @id @default(autoincrement())
-  nameItem        String?         @unique @db.VarChar
-  itemImage       String        
+  nameItem        String         @unique @db.VarChar
+  itemImage       String 
+  itemDescription String     
   idCategory      Int
   categoryService categoryService @relation(fields: [idCategory], references: [idCategory], onDelete: NoAction, onUpdate: NoAction)
   ticket          ticket[]
@@ -83,6 +84,7 @@ model ticket {
   creationDate                  DateTime     @default(dbgenerated("CURRENT_DATE")) @db.Date
   idStateTicket                 Int?
   idComment                     Int?
+  itemDescription               String?
   idAgent                       String?      @db.VarChar
   comment                       comment[]
   person_ticket_idAgentToperson person?      @relation("ticket_idAgentToperson", fields: [idAgent], references: [id], onDelete: NoAction, onUpdate: NoAction)
