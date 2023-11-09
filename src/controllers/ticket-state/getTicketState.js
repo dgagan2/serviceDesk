@@ -1,4 +1,5 @@
 /* eslint-disable no-useless-catch */
+
 import prisma from '../../config/prismaInitialize.js'
 
 export const getTicketStateByName = async (req, res) => {
