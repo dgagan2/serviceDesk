@@ -24,6 +24,7 @@ model categoryService {
 
 model comment {
   id           Int      @id @default(autoincrement())
+  descriptionComment      String
   numberTicket Int?
   IdUser       String?  @db.VarChar(70)
   creationDate DateTime @default(dbgenerated("CURRENT_DATE")) @db.Date
