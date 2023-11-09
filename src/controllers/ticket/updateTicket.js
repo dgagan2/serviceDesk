@@ -3,7 +3,7 @@ import { searchTicketState } from '../ticket-state/getTicketState.js'
 
 const closeTicket = async (req, res) => {
   const { numberTicket } = req.body
-  if (!numberTicket) res.status(500).json({ message: 'Empty ticket number' })
+  if (!numberTicket) return res.status(500).json({ message: 'Empty ticket number' })
   try {
     const checkState = await searchTicketState('cerrado')
     const x = await prisma.ticket.update({
@@ -18,7 +18,6 @@ const closeTicket = async (req, res) => {
       res.status(200).json({ message: 'Solicitud finalizada' })
     }
   } catch (error) {
-    console.log('error', error)
     res.status(500).json({ message: 'Something went wrong', error })
   }
 }
