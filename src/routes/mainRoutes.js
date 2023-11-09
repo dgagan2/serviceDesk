@@ -1,6 +1,7 @@
 import { protect } from '../middleware/auth.handler.js'
 import { verifyToken } from '../services/jwt/tokenSignin.js'
 import { categoryServiceRoute } from './categoryServiceRoute.js'
+import { commentsRoute } from './commentsRoute.js'
 import { departmentRoute } from './departmentRoute.js'
 import { loginRoute } from './loginRoute.js'
 import { registerRoute } from './registerRoute.js'
@@ -18,6 +19,7 @@ export const routerApi = (app) => {
   app.use('/department', departmentRoute)
   app.use('/ticket', ticketRoute)
   app.use('/category', categoryServiceRoute)
+  app.use('/comment', commentsRoute)
   app.use('/uploadImage', uploadImageRoute)
   app.post('/validateToken', (req, res) => {
     const { token } = req.body
