@@ -2,7 +2,7 @@
 /* eslint-disable no-useless-catch */
 import { v4 as uuidv4 } from 'uuid'
 import prisma from '../../config/prismaInitialize.js'
-import { encryptPassword } from '../../utils/ encryptPassword.js'
+import { encryptPassword } from '../../utils/encryptPassword.js'
 import { searchRole } from '../user-role/getRole.js'
 import { searchState } from '../user-state/getState.js'
 

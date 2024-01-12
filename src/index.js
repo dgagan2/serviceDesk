@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 import passport from 'passport'
 import cors from 'cors'
 import jwtStrategy from './services/strategies/jwt.strategy.js'
+import useGraphql from './graphql/index.js'
 dotenv.config()
 const { PORT } = process.env
 
@@ -13,9 +14,11 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+await useGraphql(app)
 app.use(logger('dev'))
 app.use(passport.initialize())
 passport.use(jwtStrategy)
+
 routerApi(app)
 
 app.listen(PORT, () => {

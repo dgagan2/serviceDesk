@@ -7,90 +7,88 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model comments {
+  idComment    Int       @id @default(autoincrement()) @db.SmallInt
+  ticketNumber Int       @db.SmallInt
+  idUser       String    @db.VarChar(50)
+  creationDate DateTime? @db.Timestamp(6)
+  comment      String
+  users        users     @relation(fields: [idUser], references: [idUser], onDelete: NoAction)
+  tickets      tickets   @relation(fields: [ticketNumber], references: [ticketNumber], onDelete: NoAction, onUpdate: NoAction)
+}
+
 model department {
-  id             Int      @id @default(autoincrement())
-  nameDepartment String   @unique(map: "nameDepartment") @db.VarChar
-  person         person[]
-  ticket         ticket[]
-
-  @@map(" department")
+  idDepartment   Int       @id @default(autoincrement()) @db.SmallInt
+  departmentName String    @unique(map: "departmentName") @db.VarChar(20)
+  tickets        tickets[]
+  users          users[]
 }
 
-model categoryService {
-  idCategory   Int          @id @default(autoincrement())
-  nameCategory String       @unique @db.VarChar(70)
-  itemService  itemService[]
+model serviceCategories {
+  idCategory   Int        @id @default(autoincrement()) @db.SmallInt
+  categoryName String     @unique(map: "categoryName") @db.VarChar(30)
+  services     services[]
 }
 
-model comment {
-  id           Int      @id @default(autoincrement())
-  descriptionComment      String
-  numberTicket Int?
-  IdUser       String?  @db.VarChar(70)
-  creationDate DateTime @default(dbgenerated("CURRENT_DATE")) @db.Date
-  person       person?  @relation(fields: [IdUser], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  ticket       ticket?  @relation(fields: [numberTicket], references: [numberTicket], onDelete: Cascade)
+model services {
+  idService          Int                @id @default(autoincrement()) @db.SmallInt
+  serviceName        String             @db.VarChar(30)
+  servicePoster      String             @db.VarBit
+  serviceDescription String?            @db.VarChar(255)
+  idCategory         Int?               @db.SmallInt
+  serviceCategories  serviceCategories? @relation(fields: [idCategory], references: [idCategory], onDelete: NoAction, onUpdate: NoAction)
+  tickets            tickets[]
 }
 
-model itemService {
-  id              Int             @id @default(autoincrement())
-  nameItem        String         @unique @db.VarChar
-  itemImage       String 
-  itemDescription String     
-  idCategory      Int
-  categoryService categoryService @relation(fields: [idCategory], references: [idCategory], onDelete: NoAction, onUpdate: NoAction)
-  ticket          ticket[]
+model ticketStatus {
+  idStatus                                   Int       @id @default(autoincrement()) @db.SmallInt
+  statusName                                 String    @unique(map: "statusName") @db.VarChar(15)
+  tickets_tickets_ticketStatusToticketStatus tickets[] @relation("tickets_ticketStatusToticketStatus")
 }
 
-model person {
-  id                            String      @id @db.VarChar
-  name                          String
-  email                         String      @unique(map: "email")
-  idDepartment                  Int?
-  idRole                        Int?
-  idState                       Int?
-  password                      String
-  comment                       comment[]
-  department                    department? @relation(fields: [idDepartment], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  roleUser                      roleUser?   @relation(fields: [idRole], references: [idRole], onDelete: NoAction, onUpdate: NoAction)
-  stateUser                     stateUser?  @relation(fields: [idState], references: [idState], onDelete: NoAction, onUpdate: NoAction)
-  ticket_ticket_idAgentToperson ticket[]    @relation("ticket_idAgentToperson")
-  ticket_ticket_idUserToperson  ticket[]    @relation("ticket_idUserToperson")
+model tickets {
+  ticketNumber                                    Int          @id @default(autoincrement())
+  request                                         String
+  idUser                                          String       @db.VarChar(50)
+  idDepartment                                    Int          @default(autoincrement()) @db.SmallInt
+  idService                                       Int          @db.SmallInt
+  creationDate                                    DateTime?    @db.Timestamp(6)
+  ticketStatus                                    Int          @map(" ticketStatus") @db.SmallInt
+  serviceDescription                              String?      @db.VarChar(255)
+  idAgent                                         String?      @db.VarChar(50)
+  updateDate                                      DateTime?    @db.Timestamp(6)
+  comments                                        comments[]
+  ticketStatus_tickets_ticketStatusToticketStatus ticketStatus @relation("tickets_ticketStatusToticketStatus", fields: [ticketStatus], references: [idStatus], onDelete: NoAction, onUpdate: NoAction)
+  users_tickets_idAgentTousers                    users?       @relation("tickets_idAgentTousers", fields: [idAgent], references: [idUser], onDelete: NoAction)
+  department                                      department   @relation(fields: [idDepartment], references: [idDepartment], onDelete: NoAction, onUpdate: NoAction)
+  services                                        services     @relation(fields: [idService], references: [idService], onDelete: SetNull)
+  users_tickets_idUserTousers                     users        @relation("tickets_idUserTousers", fields: [idUser], references: [idUser], onDelete: NoAction)
 }
 
-model roleUser {
-  idRole   Int      @id @default(autoincrement())
-  nameRole String   @unique @db.VarChar
-  person   person[]
+model userRoles {
+  idRole   Int     @id @default(autoincrement()) @db.SmallInt
+  roleName String  @unique(map: "roleName") @db.VarChar(15)
+  users    users[]
 }
 
-model stateTicket {
-  id        Int      @id @default(autoincrement())
-  nameState String   @unique @db.VarChar
-  ticket    ticket[]
+model userStates {
+  idState   Int     @id @default(autoincrement())
+  stateName String  @unique(map: "stateName") @db.VarChar(15)
+  users     users[]
 }
 
-model stateUser {
-  idState   Int      @id @default(autoincrement())
-  nameState String   @unique @db.VarChar
-  person    person[]
-}
-
-model ticket {
-  numberTicket                  Int          @id @default(autoincrement())
-  description                   String
-  idUser                        String?      @db.VarChar
-  idDepartment                  Int?
-  idItem                        Int?
-  creationDate                  DateTime     @default(dbgenerated("CURRENT_DATE")) @db.Date
-  idStateTicket                 Int?
-  idComment                     Int?
-  itemDescription               String?
-  idAgent                       String?      @db.VarChar
-  comment                       comment[]
-  person_ticket_idAgentToperson person?      @relation("ticket_idAgentToperson", fields: [idAgent], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  department                    department?  @relation(fields: [idDepartment], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  itemService                   itemService? @relation(fields: [idItem], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  stateTicket                   stateTicket? @relation(fields: [idStateTicket], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  person_ticket_idUserToperson  person?      @relation("ticket_idUserToperson", fields: [idUser], references: [id], onDelete: NoAction, onUpdate: NoAction)
+model users {
+  idUser                         String      @id @db.VarChar(50)
+  email                          String      @unique(map: "email") @db.VarChar(40)
+  name                           String      @db.VarChar(60)
+  idDepartment                   Int?        @db.SmallInt
+  idRole                         Int?        @db.SmallInt
+  idState                        Int?        @db.SmallInt
+  password                       String      @db.VarChar(30)
+  comments                       comments[]
+  tickets_tickets_idAgentTousers tickets[]   @relation("tickets_idAgentTousers")
+  tickets_tickets_idUserTousers  tickets[]   @relation("tickets_idUserTousers")
+  department                     department? @relation(fields: [idDepartment], references: [idDepartment], onDelete: NoAction, onUpdate: NoAction)
+  userRoles                      userRoles?  @relation(fields: [idRole], references: [idRole], onDelete: Restrict)
+  userStates                     userStates? @relation(fields: [idState], references: [idState], onDelete: NoAction)
 }
