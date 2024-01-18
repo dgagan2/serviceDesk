@@ -51,15 +51,16 @@ export const searchDepartmentId = async (idDepartment) => {
 }
 
 // Searches for a department by name in the database.
-export const searchDepartment = async (nameDepartment) => {
+export const searchDepartment = async (departmentName) => {
   const exist = await prisma.department.findMany({
     where: {
-      nameDepartment: {
-        contains: nameDepartment,
+      departmentName: {
+        contains: departmentName,
         mode: 'insensitive'
       }
     }
   })
+  console.log('exist', exist)
   if (exist.length > 0) {
     return exist
   } else {

@@ -1,0 +1,12 @@
+
+type Query {
+    hello: String!,
+    departmetByName(name: String!): Department,
+    departmentById(idDepartment: ID!): Department,
+    allDepartments: [Department],
+}
+
+type Department{
+    idDepartment: ID,
+    departmentName: String
+}

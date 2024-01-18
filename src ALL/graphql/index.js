@@ -1,21 +1,12 @@
 import { ApolloServer } from '@apollo/server'
 import { ApolloServerPluginLandingPageLocalDefault, ApolloServerPluginLandingPageProductionDefault } from '@apollo/server/plugin/landingPage/default'
 import { expressMiddleware } from '@apollo/server/express4'
-
-const typeDefs = `
-type Query {
-    hello: String!
-}
-`
-const resolvers = {
-  Query: {
-    hello: () => 'Hello world!'
-  }
-}
+import { loadFiles } from '@graphql-tools/load-files'
+import { resolvers } from './resolver.js'
 
 const useGraphql = async (app) => {
   const server = new ApolloServer({
-    typeDefs,
+    typeDefs: await loadFiles('./src/graphql/**/*.graphql'),
     resolvers,
     plugins: [
       ApolloServerPluginLandingPageLocalDefault()

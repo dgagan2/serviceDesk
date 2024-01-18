@@ -1,0 +1,30 @@
+import { serviceCategories } from './serviceCategories.router';
+import { departmentRoute } from './department.router';
+import { loginRoute } from './login.router';
+import { registerRoute } from './register.router.';
+import { userRoutes } from './user.router';
+import { ticketRoute } from './ticket.router';
+import { roleRoute } from './role.router';
+import { stateRoute } from './state.router';
+import { commentsRoute } from './comments.router.';
+import { servicesRouter } from './services.router.';
+import { ticketStateRoute } from './ticketState.router';
+import { uploadImageRoute } from './uploadImage.router';
+import express from 'express';
+
+export const routerApi = (app) => {
+  const router = express.Router();
+  app.use('/api', router);
+  router.use('/department', departmentRoute);
+  router.use('/login', loginRoute);
+  router.use('/register', registerRoute);
+  router.use('/user', userRoutes);
+  router.use('/user/role', roleRoute);
+  router.use('/user/state', stateRoute);
+  router.use('/ticket', ticketRoute);
+  router.use('/ticket/service', servicesRouter);
+  router.use('/ticket/comment', commentsRoute);
+  router.use('/ticket/category', serviceCategories);
+  router.use('/ticket/state', ticketStateRoute);
+  router.use('/newimage', uploadImageRoute);
+};
