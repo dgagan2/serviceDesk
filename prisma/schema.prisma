@@ -78,13 +78,13 @@ model userStates {
 }
 
 model users {
-  idUser                         String      @id @db.VarChar(50)
+  idUser                         String      @id @db.VarChar(100)
   email                          String      @unique(map: "email") @db.VarChar(40)
   name                           String      @db.VarChar(60)
   idDepartment                   Int?        @db.SmallInt
   idRole                         Int?        @db.SmallInt
   idState                        Int?        @db.SmallInt
-  password                       String      @db.VarChar(30)
+  password                       String      @db.VarChar(100)
   comments                       comments[]
   tickets_tickets_idAgentTousers tickets[]   @relation("tickets_idAgentTousers")
   tickets_tickets_idUserTousers  tickets[]   @relation("tickets_idUserTousers")

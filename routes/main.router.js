@@ -1,0 +1,31 @@
+import { serviceCategories } from './serviceCategories.router.js';
+import { departmentRoute } from './department.router.js';
+import { loginRoute } from './login.router.js';
+import { registerRoute } from './register.router.js';
+import { userRoutes } from './user.router.js';
+import { ticketRoute } from './ticket.router.js';
+import { roleRoute } from './role.router.js';
+import { stateRoute } from './state.router.js';
+import { commentsRoute } from './comments.router.js';
+import { servicesRouter } from './services.router.js';
+import { ticketStateRoute } from './ticketState.router.js';
+import { uploadImageRoute } from './uploadImage.router.js';
+import express from 'express';
+import checkApiKey from '../middleware/auth.handler.js';
+
+export const routerApi = (app) => {
+  const router = express.Router();
+  app.use('/api', checkApiKey, router);
+  router.use('/department', departmentRoute);
+  router.use('/login', loginRoute);
+  router.use('/register', registerRoute);
+  router.use('/user', userRoutes);
+  router.use('/user/role', roleRoute);
+  router.use('/user/state', stateRoute);
+  router.use('/ticket', ticketRoute);
+  router.use('/ticket/service', servicesRouter);
+  router.use('/ticket/comment', commentsRoute);
+  router.use('/ticket/category', serviceCategories);
+  router.use('/ticket/state', ticketStateRoute);
+  router.use('/newimage', uploadImageRoute);
+};
