@@ -78,13 +78,13 @@ CREATE TABLE "userStates" (
 
 -- CreateTable
 CREATE TABLE "users" (
-    "idUser" VARCHAR(50) NOT NULL,
+    "idUser" VARCHAR(100) NOT NULL,
     "email" VARCHAR(40) NOT NULL,
     "name" VARCHAR(60) NOT NULL,
     "idDepartment" SMALLINT,
     "idRole" SMALLINT,
     "idState" SMALLINT,
-    "password" VARCHAR(30) NOT NULL,
+    "password" VARCHAR(100) NOT NULL,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("idUser")
 );

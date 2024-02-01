@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import { routerApi } from './routes/main.router.js';
 import { errorHandler, boomErrorHandler } from './middleware/error.handler.js';
 import cors from 'cors';
-
+import './utils/auth/index.js';
 dotenv.config();
 const { PORT } = process.env;
 
