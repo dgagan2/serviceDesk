@@ -11,7 +11,7 @@ import { servicesRouter } from './services.router.js';
 import { ticketStateRoute } from './ticketState.router.js';
 import { uploadImageRoute } from './uploadImage.router.js';
 import express from 'express';
-import checkApiKey from '../middleware/auth.handler.js';
+import { checkApiKey } from '../middleware/auth.handler.js';
 
 export const routerApi = (app) => {
   const router = express.Router();
