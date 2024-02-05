@@ -14,7 +14,8 @@ export const config = {
   jwtSecret: process.env.SECRET_KEY,
   emailUser: process.env.EMAIL_USER,
   emailPassword: process.env.EMAIL_PASSWORD,
-  frontUrl: process.env.FRONT_URL
+  frontUrl: process.env.FRONT_URL,
+  jwtSecretReset: process.env.SECRET_KEY_RESET
 };
 
 const USER = encodeURIComponent(config.dbUser);

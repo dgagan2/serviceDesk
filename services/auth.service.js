@@ -56,7 +56,7 @@ export class AuthService {
     const payload = {
       sub: user.idUser
     };
-    const token = jsonwebtoken.sign(payload, config.jwtSecret, { expiresIn: '15min' });
+    const token = jsonwebtoken.sign(payload, config.jwtSecretReset, { expiresIn: '15min' });
     const url = `${config.frontUrl}/reset-password?token=${token}`;
     await this.sendMail({
       user,
@@ -73,6 +73,27 @@ export class AuthService {
         recoveryToken: token
       }
     });
-    return { message: 'Email sent' };
+    return { message: 'Email has been sent' };
+  }
+
+  async changePassword (password, token) {
+    try {
+      const payload = jsonwebtoken.verify(token, config.jwtSecretReset);
+      const user = await prisma.users.findById(payload.sub);
+      if (user.recoveryToken !== token) throw boom.unauthorized('Invalid token');
+      const hash = await bcrypt.hash(password, 10);
+      await prisma.users.update({
+        where: {
+          idUser: user.idUser
+        },
+        data: {
+          password: hash,
+          recoveryToken: null
+        }
+      });
+      return { message: 'Password has been changed' };
+    } catch (error) {
+      throw boom.unauthorized('Invalid token');
+    }
   }
 }
