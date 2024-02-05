@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import jsonwebtoken from 'jsonwebtoken';
 import { config } from '../config/config.js';
 import { transporter } from '../utils/mailer.js';
+import prisma from '../config/prismaInitialize.js';
 
 const service = new UserService();
 
@@ -63,6 +64,14 @@ export class AuthService {
       subject: 'Recovery Password',
       text: 'Para recuperar su contraseña ingrese al siguiente enlace',
       url
+    });
+    await prisma.users.update({
+      where: {
+        idUser: user.idUser
+      },
+      data: {
+        recoveryToken: token
+      }
     });
     return { message: 'Email sent' };
   }

@@ -15,4 +15,5 @@ recovery.post('/', validatorHandler(recoveryPasswordSchema, 'body'),
     } catch (error) {
       next(error);
     }
-  });
+  }
+);
