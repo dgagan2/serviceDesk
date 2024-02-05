@@ -85,6 +85,7 @@ model users {
   idRole                         Int?        @db.SmallInt
   idState                        Int?        @db.SmallInt
   password                       String      @db.VarChar(100)
+  recoveryToken                  String?     @db.VarChar(200)
   comments                       comments[]
   tickets_tickets_idAgentTousers tickets[]   @relation("tickets_idAgentTousers")
   tickets_tickets_idUserTousers  tickets[]   @relation("tickets_idUserTousers")
