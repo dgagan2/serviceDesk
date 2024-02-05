@@ -12,6 +12,7 @@ import { ticketStateRoute } from './ticketState.router.js';
 import { uploadImageRoute } from './uploadImage.router.js';
 import express from 'express';
 import { checkApiKey } from '../middleware/auth.handler.js';
+import { recovery } from './recoveryPassword.js';
 
 export const routerApi = (app) => {
   const router = express.Router();
@@ -28,4 +29,5 @@ export const routerApi = (app) => {
   router.use('/ticket/category', serviceCategories);
   router.use('/ticket/state', ticketStateRoute);
   router.use('/newimage', uploadImageRoute);
+  router.use('/recovery', recovery);
 };

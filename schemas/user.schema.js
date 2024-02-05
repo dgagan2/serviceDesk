@@ -13,3 +13,7 @@ export const createUserSchema = Joi.object({
   password: password.required(),
   name: name.required()
 });
+
+export const recoveryPasswordSchema = Joi.object({
+  email: email.required()
+});
