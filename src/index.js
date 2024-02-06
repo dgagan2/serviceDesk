@@ -7,7 +7,7 @@ import jwtStrategy from './utils/auth/strategies/jwt.strategy.js';
 import passport from 'passport';
 import cors from 'cors';
 import localStrategy from './utils/auth/strategies/local.strategy.js';
-
+import useGraphql from './graphql/index.js';
 dotenv.config();
 const { PORT } = process.env;
 
@@ -26,6 +26,7 @@ const app = express();
 app.use(cors(options));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+await useGraphql(app);
 app.use(passport.initialize());
 passport.use(jwtStrategy);
 passport.use(localStrategy);
