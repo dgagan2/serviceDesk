@@ -1,4 +1,73 @@
 
 type Query {
-    hello: String!
+    hello: String!,
+    departmetByName(name: String!): Department,
+    departmentById(idDepartment: ID!): Department,
+    allDepartments: [Department],
 }
+
+type Department{
+    idDepartment: ID!,
+    departmentName: String!
+}
+
+type ServiceCategories{
+    idCategory: ID!,
+    categoryName: String!
+}
+
+type Services{
+    idService: ID!,
+    serviceName: String!,
+    servicePoster: String!,
+    serviceDescription: String,
+    idCategory: Int
+}
+
+type TicketStatus{
+    idStatus: ID!,
+    statusName: String!
+}
+
+type Tickets{
+    ticketNumber: ID!,
+    request:String!,
+    idUser: String!,
+    idDepartment: Int!,
+    idService: Int!,
+    creationDate: Date,
+    ticketStatus: Int!,
+    serviceDescription: String,
+    idAgent: String,
+    updateDate: Date
+}
+
+type UserRoles{
+    idRole: ID!,
+    roleName: String!
+}
+
+type UserStates{
+    idState: ID!,
+    stateName: String!
+}
+
+type Users{
+    idUser: String!,
+    email: String!,
+    name: String!,
+    idDepartment:Int,
+    idRole: Int,
+    idState: Int,
+    password: String!,
+    recoveryToken: String
+}
+
+type Comments{
+    idComment: ID!,
+    ticketNumber: Int!,
+    idUser: String!,
+    comment: String!,
+    creationDate: Date
+}
+```
