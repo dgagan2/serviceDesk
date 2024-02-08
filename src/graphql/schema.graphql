@@ -74,22 +74,10 @@ type Comments{
 
 
 type Mutation {
-    createDepartment(departmentName: String!): Department,
-    updateDepartment(idDepartment: ID!, departmentName: String!): Department,
-    deleteDepartment(idDepartment: ID!): Department,
-    createServiceCategory(categoryName: String!): ServiceCategories,
-    updateServiceCategory(idCategory: ID!, categoryName: String!): ServiceCategories,
-    deleteServiceCategory(idCategory: ID!): ServiceCategories,
-    createService(serviceName: String!, servicePoster: String!, serviceDescription: String, idCategory: Int): Services,
-    updateService(idService: ID!, serviceName: String!, servicePoster: String!, serviceDescription: String, idCategory: Int): Services,
-    deleteService(idService: ID!): Services,
-    createTicket(request: String!, idUser: String!, idDepartment: Int!, idService: Int!, ticketStatus: Int!, serviceDescription: String, idAgent: String, updateDate: String): Tickets,
-    updateTicket(ticketNumber: ID!, request: String!, idUser: String!, idDepartment: Int!, idService: Int!, ticketStatus: Int!, serviceDescription: String, idAgent: String, updateDate: String): Tickets,
-    deleteTicket(ticketNumber: ID!): Tickets,
-    createUser(email: String!, name: String!, idDepartment:Int, idRole: Int, idState: Int, password: String!, recoveryToken: String): Users,
-    updateUser(idUser: String!, email: String!, name: String!, idDepartment:Int, idRole: Int, idState: Int, password: String!, recoveryToken: String): Users,
-    deleteUser(idUser: String!): Users,
-    createComment(ticketNumber: Int!, idUser: String!, comment: String!, creationDate: String): Comments,
-    updateComment(idComment: ID!, ticketNumber: Int!, idUser: String!, comment: String!, creationDate: String): Comments,
-    deleteComment(idComment: ID!): Comments
+    addDepartment(dto:CreateDepartmentDto!): Department,
+
+}
+
+input CreateDepartmentDto {
+    departmentName: String!
 }

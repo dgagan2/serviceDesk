@@ -9,13 +9,18 @@ export const departmetByName = async (_, { departmentName }) => {
 };
 
 // Retrieves a department by ID from the database.
-export const departmentById = (_, { idDepartment }) => {
-  const department = service.findById(idDepartment);
+export const departmentById = async (_, { idDepartment }) => {
+  const department = await service.findById(idDepartment);
   return department;
 };
 
 // Retrieves all departments from the database.
-export const allDepartments = () => {
-  const department = service.find();
+export const allDepartments = async () => {
+  const department = await service.find();
+  return department;
+};
+
+export const addDepartment = async (departmentName) => {
+  const department = await service.create(departmentName);
   return department;
 };

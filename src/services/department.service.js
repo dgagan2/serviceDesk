@@ -6,7 +6,14 @@ export class departmentService {
     this.department = [];
   }
 
-  create () {}
+  create (departmentName) {
+    const department = prisma.department.create({
+      data: {
+        departmentName
+      }
+    });
+    return department;
+  }
 
   find () {
     const departments = prisma.department.findMany();
