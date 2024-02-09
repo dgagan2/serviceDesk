@@ -1,26 +1,30 @@
 import { departmentService } from '../../services/department.service.js';
-
 const service = new departmentService();
 
 // Retrieves a department by name from the database.
-export const departmetByName = async (_, { departmentName }) => {
-  const department = await service.findByName(departmentName);
-  return department;
+export const departmetByName = (_, { departmentName }) => {
+  return service.findByName(departmentName);
 };
 
 // Retrieves a department by ID from the database.
-export const departmentById = async (_, { idDepartment }) => {
-  const department = await service.findById(idDepartment);
-  return department;
+export const departmentById = (_, { idDepartment }) => {
+  return service.findById(idDepartment);
 };
 
 // Retrieves all departments from the database.
-export const allDepartments = async () => {
-  const department = await service.find();
-  return department;
+export const allDepartments = () => {
+  return service.find();
 };
 
-export const addDepartment = async (departmentName) => {
-  const department = await service.create(departmentName);
-  return department;
+export const addDepartment = (_, { dto }) => {
+  const { departmentName } = dto;
+  return service.create(departmentName);
+};
+
+export const updateDepartment = (_, { dto }) => {
+  return service.update(dto);
+};
+
+export const deleteDepartment = (_, { idDepartment }) => {
+  return service.delete(idDepartment);
 };

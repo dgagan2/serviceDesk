@@ -75,9 +75,16 @@ type Comments{
 
 type Mutation {
     addDepartment(dto:CreateDepartmentDto!): Department,
+    updateDepartment(idDepartment: ID!, dto:UpdateDepartmentDto!): Department,
+    deleteDepartment(idDepartment: ID!): ID,
 
 }
 
 input CreateDepartmentDto {
+    departmentName: String!
+}
+
+input UpdateDepartmentDto{
+    idDepartment: ID!,
     departmentName: String!
 }

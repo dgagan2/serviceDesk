@@ -1,4 +1,4 @@
-import { departmetByName, departmentById, allDepartments, addDepartment } from './department/department.resolvers.js';
+import { departmetByName, departmentById, allDepartments, addDepartment, deleteDepartment, updateDepartment } from './department/department.resolvers.js';
 export const resolvers = {
   Query: {
     hello: () => 'Hello world!',
@@ -8,6 +8,8 @@ export const resolvers = {
 
   },
   Mutation: {
-    addDepartment
+    addDepartment,
+    deleteDepartment,
+    updateDepartment
   }
 };

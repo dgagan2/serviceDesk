@@ -7,6 +7,14 @@ export class departmentService {
   }
 
   create (departmentName) {
+    const existingDepartment = prisma.department.findUnique({
+      where: {
+        departmentName
+      }
+    });
+    if (existingDepartment) {
+      throw boom.badRequest('Department already exists');
+    }
     const department = prisma.department.create({
       data: {
         departmentName
@@ -47,6 +55,24 @@ export class departmentService {
     return department;
   }
 
-  update () {}
-  delete () {}
+  update ({ idDepartment, departmentName }) {
+    const department = prisma.department.update({
+      where: {
+        idDepartment
+      },
+      data: {
+        departmentName
+      }
+    });
+    return department;
+  }
+
+  delete (idDepartment) {
+    const department = prisma.department.delete({
+      where: {
+        idDepartment
+      }
+    });
+    return department;
+  }
 }
