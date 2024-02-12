@@ -3,11 +3,13 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
 import { expressMiddleware } from '@apollo/server/express4';
 import { loadFiles } from '@graphql-tools/load-files';
 import { resolvers } from './resolver.js';
+import { buildContext } from 'graphql-passport';
 
 const useGraphql = async (app) => {
   const server = new ApolloServer({
     typeDefs: await loadFiles('./src/graphql/**/*.graphql'),
     resolvers,
+    playground: true,
     plugins: [
       ApolloServerPluginLandingPageLocalDefault()
     ]
@@ -16,7 +18,7 @@ const useGraphql = async (app) => {
   app.use(
     '/graphql',
     expressMiddleware(server, {
-      context: async ({ req }) => ({ token: req.headers.token })
+      context: ({ req, res }) => buildContext({ req, res })
     })
   );
 };

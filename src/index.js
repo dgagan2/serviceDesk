@@ -3,11 +3,11 @@ import logger from 'morgan';
 import dotenv from 'dotenv';
 import { routerApi } from './routes/main.router.js';
 import { errorHandler, boomErrorHandler } from './middleware/error.handler.js';
-import jwtStrategy from './utils/auth/strategies/jwt.strategy.js';
 import passport from 'passport';
 import cors from 'cors';
-import localStrategy from './utils/auth/strategies/local.strategy.js';
+import { GQLLocalSrategy } from './utils/auth/strategies/local-gql.js';
 import useGraphql from './graphql/index.js';
+
 dotenv.config();
 const { PORT } = process.env;
 
@@ -28,8 +28,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 await useGraphql(app);
 app.use(passport.initialize());
-passport.use(jwtStrategy);
-passport.use(localStrategy);
+passport.use(GQLLocalSrategy);
 
 app.use(logger('dev'));
 routerApi(app);

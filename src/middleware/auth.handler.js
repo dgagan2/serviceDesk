@@ -14,7 +14,6 @@ export function checkApiKey (req, res, next) {
 
 export function checkRoles (...roles) {
   return (req, res, next) => {
-    console.log(req.user);
     const { role } = req.user;
     if (!roles.includes(role)) {
       next(boom.unauthorized('You do not have the necessary permissions'));
