@@ -21,8 +21,8 @@ export const addDepartment = (_, { dto }) => {
   return service.create(departmentName);
 };
 
-export const updateDepartment = (_, { dto }) => {
-  return service.update(dto);
+export const updateDepartment = (_, args) => {
+  return service.update(args);
 };
 
 export const deleteDepartment = (_, { idDepartment }) => {

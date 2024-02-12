@@ -55,8 +55,9 @@ export class departmentService {
     return department;
   }
 
-  update ({ idDepartment, departmentName }) {
-    const department = prisma.department.update({
+  async update ({ idDepartment, departmentName }) {
+    await this.findById(idDepartment);
+    const department = await prisma.department.update({
       where: {
         idDepartment
       },
@@ -67,7 +68,8 @@ export class departmentService {
     return department;
   }
 
-  delete (idDepartment) {
+  async delete (idDepartment) {
+    await this.findById(idDepartment);
     const department = prisma.department.delete({
       where: {
         idDepartment
