@@ -1,8 +1,17 @@
 import { departmentService } from '../../services/department.service.js';
+import boom from '@hapi/boom';
+import checkRoles from '../../utils/auth/checkRolesGql.js';
+import { checkJwtGql } from '../../utils/auth/checkJwtGql.js';
+
 const service = new departmentService();
 
 // Retrieves a department by name from the database.
-export const departmetByName = (_, { departmentName }) => {
+export const departmetByName = async (_, { departmentName }, context) => {
+  const user = await context.authenticate('jwt', { session: false });
+  if (!user) {
+    throw boom.unauthorized('Unauthorized');
+  }
+  checkRoles(user, 'customer');
   return service.findByName(departmentName);
 };
 
@@ -16,7 +25,9 @@ export const allDepartments = () => {
   return service.find();
 };
 
-export const addDepartment = (_, { dto }) => {
+export const addDepartment = async (_, { dto }, context) => {
+  const user = await checkJwtGql(context);
+  checkRoles(user, 'admin');
   const { departmentName } = dto;
   return service.create(departmentName);
 };
