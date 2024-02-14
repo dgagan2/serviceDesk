@@ -7,6 +7,7 @@ import passport from 'passport';
 import cors from 'cors';
 import { GQLLocalSrategy } from './utils/auth/strategies/local-gql.js';
 import jwtStrategy from './utils/auth/strategies/jwt.strategy.js';
+import localStrategy from './utils/auth/strategies/local.strategy.js';
 import useGraphql from './graphql/index.js';
 
 dotenv.config();
@@ -31,6 +32,7 @@ await useGraphql(app);
 app.use(passport.initialize());
 passport.use(GQLLocalSrategy);
 passport.use(jwtStrategy);
+passport.use(localStrategy);
 
 app.use(logger('dev'));
 routerApi(app);
