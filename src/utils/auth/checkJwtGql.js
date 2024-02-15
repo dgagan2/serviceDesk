@@ -5,4 +5,5 @@ export async function checkJwtGql (context) {
   if (!user) {
     throw boom.unauthorized('Unauthorized JWT not valid');
   }
+  return user;
 }

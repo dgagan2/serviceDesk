@@ -19,7 +19,7 @@ type ServiceCategories{
 type Services{
     idService: ID!,
     serviceName: String!,
-    servicePoster: String!,
+    servicePoster: URL!,
     serviceDescription: String,
     idCategory: Int,
     category: ServiceCategories
@@ -36,7 +36,7 @@ type Tickets{
     idUser: String!,
     idDepartment: Int!,
     idService: Int!,
-    creationDate: String,
+    creationDate: DateTime,
     ticketStatus: Int!,
     serviceDescription: String,
     idAgent: String,
@@ -61,11 +61,11 @@ type UserStates{
 type Users{
     idUser: String!,
     email: String!,
-    name: String!,
+    name: NameType!,
     idDepartment:Int,
     idRole: Int,
     idState: Int,
-    password: String!,
+    password: PasswordType!,
     recoveryToken: String,
     role: UserRoles,
     deparment: Department,
@@ -77,7 +77,7 @@ type Comments{
     ticketNumber: Int!,
     idUser: String!,
     comment: String!,
-    creationDate: String,
+    creationDate: DateTime,
     user: Users,
     ticket: Tickets
 }
@@ -88,7 +88,7 @@ type Mutation {
     addDepartment(dto:CreateDepartmentDto!): Department,
     updateDepartment(idDepartment: Int!, departmentName: String!): Department,
     deleteDepartment(idDepartment: Int!): Department,
-    login(email: String!, password: String!):AuthResponse
+    login(email: EmailAddress!, password: String!):AuthResponse
 }
 
 input CreateDepartmentDto {
@@ -99,4 +99,7 @@ type AuthResponse {
     token: String!,
     user: Users!
 }
+
+scalar PasswordType,
+scalar NameType,
 
