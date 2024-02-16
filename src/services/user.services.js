@@ -36,6 +36,18 @@ export class UserService {
     const exist = await prisma.users.findUnique({
       where: {
         email
+      },
+      include: {
+        role: {
+          select: {
+            roleName: true
+          }
+        },
+        state: {
+          select: {
+            stateName: true
+          }
+        }
       }
     });
     return exist;

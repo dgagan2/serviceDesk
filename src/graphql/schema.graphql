@@ -4,6 +4,9 @@ type Query {
     departmetByName(departmentName: String!): Department,
     departmentById(idDepartment: ID!): Department,
     allDepartments: [Department],
+    roleById(idRole: ID!): UserRoles,
+    roleByName(roleName: String!): UserRoles,
+    allRoles:[UserRoles]
 }
 
 type Department{
@@ -88,7 +91,10 @@ type Mutation {
     addDepartment(dto:CreateDepartmentDto!): Department,
     updateDepartment(idDepartment: Int!, departmentName: String!): Department,
     deleteDepartment(idDepartment: Int!): Department,
-    login(email: EmailAddress!, password: String!):AuthResponse
+    login(email: EmailAddress!, password: String!):AuthResponse,
+    addRole(roleName:String!): UserRoles,
+    updateRole(idRole: Int!, roleName: String!): UserRoles,
+    deleteRole(idRole: Int!): UserRoles
 }
 
 input CreateDepartmentDto {

@@ -22,6 +22,7 @@ export class AuthService {
       throw boom.unauthorized('User or password not valid');
     }
     delete user.password;
+    console.log('user', user);
     return user;
   }
 
@@ -29,7 +30,8 @@ export class AuthService {
     const payload = {
       sub: user.idUser,
       role: user.idRole,
-      email: user.email
+      email: user.email,
+      state: user.idState
     };
     const token = jsonwebtoken.sign(payload, config.jwtSecret, { expiresIn: '20min' });
     return token;
