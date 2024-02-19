@@ -1,7 +1,7 @@
 import boom from '@hapi/boom';
 import prisma from '../config/prismaInitialize.js';
 
-export class departmentService {
+class DepartmentService {
   constructor () {
     this.department = [];
   }
@@ -78,3 +78,5 @@ export class departmentService {
     return department;
   }
 }
+
+export default DepartmentService;

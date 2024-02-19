@@ -1,5 +1,4 @@
 import { serviceCategories } from './serviceCategories.router.js';
-import { departmentRoute } from './department.router.js';
 import { loginRoute } from './login.router.js';
 import { registerRoute } from './register.router.js';
 import { userRoutes } from './user.router.js';
@@ -17,7 +16,6 @@ import { recovery } from './recoveryPassword.js';
 export const routerApi = (app) => {
   const router = express.Router();
   app.use('/api', checkApiKey, router);
-  router.use('/department', departmentRoute);
   router.use('/login', loginRoute);
   router.use('/register', registerRoute);
   router.use('/user', userRoutes);
