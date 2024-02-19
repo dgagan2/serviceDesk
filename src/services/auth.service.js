@@ -22,7 +22,6 @@ export class AuthService {
       throw boom.unauthorized('User or password not valid');
     }
     delete user.password;
-    console.log('user', user);
     return user;
   }
 
