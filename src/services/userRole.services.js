@@ -24,7 +24,11 @@ class RoleService {
   }
 
   async find () {
-    const roles = await prisma.userRoles.findMany();
+    const roles = await prisma.userRoles.findMany({
+      include: {
+        users: true
+      }
+    });
     return roles;
   }
 
@@ -32,6 +36,9 @@ class RoleService {
     const role = await prisma.userRoles.findUnique({
       where: {
         idRole
+      },
+      include: {
+        users: true
       }
     });
     if (!role) {
@@ -47,6 +54,9 @@ class RoleService {
           contains: roleName,
           mode: 'insensitive'
         }
+      },
+      include: {
+        users: true
       }
     });
     if (!role) {

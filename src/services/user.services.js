@@ -31,7 +31,12 @@ export class UserService {
   }
 
   find () {
-    const users = prisma.users.findMany();
+    const users = prisma.users.findMany({
+      include: {
+        userRoles: true,
+        userStates: true
+      }
+    });
     return users;
   }
 
@@ -39,6 +44,10 @@ export class UserService {
     const user = await prisma.users.findUnique({
       where: {
         idUser
+      },
+      include: {
+        userRoles: true,
+        userStates: true
       }
     });
     if (!user) {
@@ -54,6 +63,10 @@ export class UserService {
           contains: name,
           mode: 'insensitive'
         }
+      },
+      include: {
+        userRoles: true,
+        userStates: true
       }
     });
     if (!user) {
@@ -69,7 +82,7 @@ export class UserService {
       },
       include: {
         userRoles: true,
-        department: true
+        userStates: true
       }
     });
     return user;

@@ -22,7 +22,8 @@ type Query {
 
 type Department{
     idDepartment: Int!,
-    departmentName: String!
+    departmentName: String!,
+    users: [Users]
 }
 
 type ServiceCategories{
@@ -65,13 +66,13 @@ type Tickets{
 type UserRoles{
     idRole: ID!,
     roleName: String!,
-    idUser:[Users] 
+    users:[Users] 
 }
 
 type UserStates{
     idState: ID!,
     stateName: String!,
-    idUser:[Users] 
+    users:[Users] 
 }
 
 type Users{
@@ -83,9 +84,9 @@ type Users{
     idState: Int,
     password: PasswordType!,
     recoveryToken: String,
-    role: UserRoles,
-    deparment: Department,
-    state: UserStates
+    userRoles: UserRoles,
+    department: Department,
+    userStates: UserStates
 }
 
 type Comments{

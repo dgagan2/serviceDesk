@@ -24,7 +24,11 @@ class StateService {
   }
 
   async find () {
-    const states = await prisma.userStates.findMany();
+    const states = await prisma.userStates.findMany({
+      include: {
+        users: true
+      }
+    });
     return states;
   }
 
@@ -32,6 +36,9 @@ class StateService {
     const state = await prisma.userStates.findUnique({
       where: {
         idState
+      },
+      include: {
+        users: true
       }
     });
     if (!state) {
@@ -47,6 +54,9 @@ class StateService {
           contains: stateName,
           mode: 'insensitive'
         }
+      },
+      include: {
+        users: true
       }
     });
     if (!state) {

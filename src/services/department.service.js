@@ -24,7 +24,11 @@ class DepartmentService {
   }
 
   find () {
-    const departments = prisma.department.findMany();
+    const departments = prisma.department.findMany({
+      include: {
+        users: true
+      }
+    });
     return departments;
   }
 
@@ -35,6 +39,9 @@ class DepartmentService {
           contains: departmentName,
           mode: 'insensitive'
         }
+      },
+      include: {
+        users: true
       }
     });
     if (!department) {
@@ -47,6 +54,9 @@ class DepartmentService {
     const department = await prisma.department.findUnique({
       where: {
         idDepartment
+      },
+      include: {
+        users: true
       }
     });
     if (!department) {
