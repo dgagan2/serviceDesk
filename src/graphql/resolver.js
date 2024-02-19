@@ -2,6 +2,8 @@ import { departmetByName, departmentById, allDepartments, addDepartment, deleteD
 import { login } from './login/auth.reslover.js';
 import { RegularExpression } from 'graphql-scalars';
 import { addRole, updateRole, deleteRole, allRoles, roleById, roleByName } from './user-role/userRole.resolver.js';
+import { addState, allStates, deleteState, stateById, stateByName, updateState } from './user-state/userState.resolver.js';
+import { allUsers, deleteUser, updateUser, userByEmail, userById, userByName } from './user/user.resolver.js';
 
 const PasswordType = new RegularExpression('PasswordType', /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{6,12}$/);
 const NameType = new RegularExpression('NameType', /^[a-zA-Z0-9 ]$/);
@@ -14,7 +16,14 @@ export const resolvers = {
     allDepartments,
     roleById,
     roleByName,
-    allRoles
+    allRoles,
+    stateById,
+    stateByName,
+    allStates,
+    allUsers,
+    userById,
+    userByEmail,
+    userByName
   },
   Mutation: {
     addDepartment,
@@ -23,7 +32,12 @@ export const resolvers = {
     login,
     addRole,
     updateRole,
-    deleteRole
+    deleteRole,
+    addState,
+    updateState,
+    deleteState,
+    updateUser,
+    deleteUser
   },
   PasswordType,
   NameType

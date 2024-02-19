@@ -1,12 +1,23 @@
 
 type Query {
     hello: String!,
+    #Query to get department
     departmetByName(departmentName: String!): Department,
     departmentById(idDepartment: ID!): Department,
     allDepartments: [Department],
+    #Query to get user roles
     roleById(idRole: ID!): UserRoles,
     roleByName(roleName: String!): UserRoles,
-    allRoles:[UserRoles]
+    allRoles:[UserRoles],
+    #Query to get user state
+    stateById(idState: ID!): UserStates,
+    stateByName(stateName: String!): UserStates,
+    allStates:[UserStates],
+     #Query to get users
+    userById(idUser: ID!): Users,
+    userByName(name: NameType!): Users,
+    allUsers:[Users],
+    userByEmail(email: EmailAddress!): Users,
 }
 
 type Department{
@@ -53,12 +64,14 @@ type Tickets{
 
 type UserRoles{
     idRole: ID!,
-    roleName: String!
+    roleName: String!,
+    idUser:[Users] 
 }
 
 type UserStates{
     idState: ID!,
-    stateName: String!
+    stateName: String!,
+    idUser:[Users] 
 }
 
 type Users{
@@ -88,17 +101,36 @@ type Comments{
 
 
 type Mutation {
+    #Mutation to add, update or delete a department
     addDepartment(dto:CreateDepartmentDto!): Department,
     updateDepartment(idDepartment: Int!, departmentName: String!): Department,
     deleteDepartment(idDepartment: Int!): Department,
+    #Mutation to do login
     login(email: EmailAddress!, password: String!):AuthResponse,
+    #Mutation to add, update or delete an user role
     addRole(roleName:String!): UserRoles,
     updateRole(idRole: Int!, roleName: String!): UserRoles,
-    deleteRole(idRole: Int!): UserRoles
+    deleteRole(idRole: Int!): UserRoles,
+    #Mutation to add, update or delete an user state
+    addState(stateName:String!): UserStates,
+    updateState(idState: Int!, stateName: String!): UserStates,
+    deleteState(idState: Int!): UserStates,
+    #Mutation to update or delete an user
+    updateUser(dto:UpdateUserDto!): Users,
+    deleteUser(idUser: Int!): Users
 }
 
 input CreateDepartmentDto {
     departmentName: String!
+}
+
+input UpdateUserDto {
+    idUser: String!,
+    email: String,
+    name: NameType,
+    idDepartment:Int,
+    idRole: Int,
+    idState: Int,
 }
 
 type AuthResponse {
