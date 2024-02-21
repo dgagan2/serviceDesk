@@ -6,9 +6,22 @@ import { config } from '../config/config.js';
 import { transporter } from '../utils/mailer.js';
 import prisma from '../config/prismaInitialize.js';
 
+/**
+ * Represents an instance of the UserService class.
+ * @type {UserService}
+ */
 const service = new UserService();
 
+/**
+ * Class representing an authentication service.
+ */
 export class AuthService {
+  /**
+   * Retrieves a user based on their email and validate with bcrypt that the password is correct.
+   * @param {string} email - The user's email.
+   * @param {string} password - The user's password.
+   * @throws {Error} If the user is not found or the password is invalid.
+   */
   async getUser (email, password) {
     const user = await service.findByEmail(email);
 
@@ -25,6 +38,11 @@ export class AuthService {
     return user;
   }
 
+  /**
+   * Generates a JSON Web Token (JWT) for the user.
+   * @param {Object} user - The user object.
+   * @returns {string} The generated JWT.
+   */
   signToken (user) {
     const payload = {
       sub: user.idUser,
@@ -35,6 +53,16 @@ export class AuthService {
     const token = jsonwebtoken.sign(payload, config.jwtSecret, { expiresIn: '20min' });
     return token;
   }
+
+  /**
+   * Sends an email.
+   * @param {Object} infoMail - The email information.
+   * @param {string} infoMail.email - The recipient's email address.
+   * @param {string} infoMail.subject - The email subject.
+   * @param {string} infoMail.text - The email body text.
+   * @param {string} infoMail.url - The URL to include in the email body.
+   * @throws {Error} If any required data is missing.
+   */
 
   async sendMail (infoMail) {
     const { email, subject, text, url } = infoMail;
@@ -49,6 +77,11 @@ export class AuthService {
     return info;
   }
 
+  /**
+   * Sends a password reset email using an URL with the JWT which is saved in the database.
+   * @param {string} email - The user's email.
+   * @throws {Error} If the user is not found.
+   */
   async sendMailResetPassword (email) {
     const user = await service.findByEmail(email);
     if (!user) {
@@ -77,6 +110,13 @@ export class AuthService {
     return { message: 'Email has been sent' };
   }
 
+  /**
+   * Changes the user's password.
+   * @param {string} password - The new password.
+   * @param {string} token - The password reset token.
+   * @returns {Promise<Object>} A message indicating that the password has been changed.
+   * @throws {Error} If the token is invalid or the user is not found.
+   */
   async changePassword (password, token) {
     try {
       const payload = jsonwebtoken.verify(token, config.jwtSecretReset);

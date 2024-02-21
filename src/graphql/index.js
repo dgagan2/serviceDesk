@@ -6,6 +6,11 @@ import { resolvers } from './resolver.js';
 import { buildContext } from 'graphql-passport';
 import { typeDefs as scalarsTypeDefs, resolvers as scalarsResolvers } from 'graphql-scalars';
 
+/**
+ * Initializes and configures Apollo Server for GraphQL.
+ * @param {Object} app - The Express app object.
+ * @returns {Promise<void>} - A promise that resolves when the server is started.
+ */
 const useGraphql = async (app) => {
   const typeDefs = [
     ...await loadFiles('./src/graphql/**/*.graphql'),

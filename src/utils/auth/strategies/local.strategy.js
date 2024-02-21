@@ -1,6 +1,13 @@
 import { Strategy } from 'passport-local';
 import { AuthService } from '../../../services/auth.service.js';
 
+/**
+ * Local authentication strategy.
+ *
+ * @param {string} email - The user's email.
+ * @param {string} password - The user's password.
+ * @param {function} done - The callback function to be called when authentication is complete.
+ */
 const localStrategy = new Strategy({
   usernameField: 'email',
   passwordField: 'password'

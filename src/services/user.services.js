@@ -3,11 +3,18 @@ import { hashPassword } from '../utils/pass-hash.js';
 import prisma from '../config/prismaInitialize.js';
 import boom from '@hapi/boom';
 
+/**
+ * Service class for managing user operations.
+ */
 export class UserService {
-  constructor () {
-
-  }
-
+  /**
+   * Creates a new user.
+   * @param {Object} data - The user data.
+   * @param {string} data.name - The name of the user.
+   * @param {string} data.email - The email of the user.
+   * @param {string} data.password - The password of the user.
+   * @throws {Error} If the user already exists.
+   */
   async create (data) {
     const exist = await this.findByEmail(data.email);
     if (exist) {
@@ -30,6 +37,10 @@ export class UserService {
     return newUser;
   }
 
+  /**
+   * Retrieves all users.
+   * @returns {Promise<Array<Object>>} The list of users.
+   */
   find () {
     const users = prisma.users.findMany({
       include: {
@@ -40,6 +51,11 @@ export class UserService {
     return users;
   }
 
+  /**
+   * Retrieves a user by ID.
+   * @param {string} idUser - The ID of the user.
+   * @throws {Error} If the user is not found.
+   */
   async findOneById (idUser) {
     const user = await prisma.users.findUnique({
       where: {
@@ -56,6 +72,11 @@ export class UserService {
     return user;
   }
 
+  /**
+   * Retrieves users by name.
+   * @param {string} name - The name to search for.
+   * @throws {Error} If no users are found.
+   */
   findByName (name) {
     const user = prisma.users.findMany({
       where: {
@@ -75,6 +96,10 @@ export class UserService {
     return user;
   }
 
+  /**
+   * Retrieves a user by email.
+   * @param {string} email - The email of the user.
+   */
   async findByEmail (email) {
     const user = await prisma.users.findUnique({
       where: {
@@ -88,6 +113,17 @@ export class UserService {
     return user;
   }
 
+  /**
+   * Updates a user.
+   * @param {Object} params - The update parameters.
+   * @param {string} params.idUser - The ID of the user to update.
+   * @param {string} [params.name] - The new name of the user.
+   * @param {string} [params.email] - The new email of the user.
+   * @param {string} [params.idDepartment] - The new department ID of the user.
+   * @param {string} [params.idRole] - The new role ID of the user.
+   * @param {string} [params.idState] - The new state ID of the user.
+   * @throws {Error} If the email already exists.
+   */
   async update ({ idUser, name, email, idDepartment, idRole, idState }) {
     const user = await this.findOneById(idUser);
     if (email) {
@@ -112,6 +148,11 @@ export class UserService {
     return newUser;
   }
 
+  /**
+   * Deletes a user.
+   * @param {string} idUser - The ID of the user to delete.
+   * @throws {Error} If the user is not found.
+   */
   async delete (idUser) {
     await this.findOneById(idUser);
     const user = await prisma.users.delete({

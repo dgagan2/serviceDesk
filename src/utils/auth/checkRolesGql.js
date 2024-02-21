@@ -5,6 +5,12 @@ import RoleService from '../../services/userRole.services.js';
 const serviceState = new StateService();
 const serviceRole = new RoleService();
 
+/**
+ * Checks if a user has the necessary roles to perform an action.
+ * @param {Object} user - The user object.
+ * @param {...string} roles - The roles required to perform the action.
+ * @throws {Error} Throws an error if the user's account is not active or if the user does not have the necessary permissions.
+ */
 export default async function checkRoles (user, ...roles) {
   const { stateName } = await serviceState.findOneById(user.state);
 
