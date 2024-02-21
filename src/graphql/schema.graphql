@@ -1,47 +1,173 @@
+# FILEPATH: /D:/Servicedesk/serviceDesk/src/graphql/schema.graphql
 
+"""
+Root query type for the GraphQL schema.
+"""
 type Query {
-    hello: String!,
-    #Query to get department
+    """
+    Query to get a department by its name.
+    """
     departmetByName(departmentName: String!): Department,
+
+    """
+    Query to get a department by its ID.
+    """
     departmentById(idDepartment: ID!): Department,
+
+    """
+    Query to get all departments.
+    """
     allDepartments: [Department],
-    #Query to get user roles
+
+    """
+    Query to get a user role by its ID.
+    """
     roleById(idRole: ID!): UserRoles,
+
+    """
+    Query to get a user role by its name.
+    """
     roleByName(roleName: String!): UserRoles,
-    allRoles:[UserRoles],
-    #Query to get user state
+
+    """
+    Query to get all user roles.
+    """
+    allRoles: [UserRoles],
+
+    """
+    Query to get a user state by its ID.
+    """
     stateById(idState: ID!): UserStates,
+
+    """
+    Query to get a user state by its name.
+    """
     stateByName(stateName: String!): UserStates,
-    allStates:[UserStates],
-     #Query to get users
+
+    """
+    Query to get all user states.
+    """
+    allStates: [UserStates],
+
+    """
+    Query to get a user by its ID.
+    """
     userById(idUser: ID!): Users,
+
+    """
+    Query to get a user by its name.
+    """
     userByName(name: NameType!): Users,
-    allUsers:[Users],
+
+    """
+    Query to get all users.
+    """
+    allUsers: [Users],
+
+    """
+    Query to get a user by its email.
+    """
     userByEmail(email: EmailAddress!): Users,
+
+    """
+    Query to get a category by its ID.
+    """
+    categoryById(idCategory: ID!): ServiceCategories,
+
+    """
+    Query to get a category by its name.
+    """
+    categoryByName(categoryName: String!): ServiceCategories,
+
+    """
+    Query to get all categories.
+    """
+    allCategories: [ServiceCategories!],
+
+    """
+    Query to get a service by its ID.
+    """
+    serviceById(idService: ID!): Services,
+
+    """
+    Query to get a service by its name.
+    """
+    serviceByName(serviceName: String!): Services,
+
+    """
+    Query to get all services.
+    """
+    allServices: [Services!],
+
+    """
+    Query to get a ticket status by its ID.
+    """
+    statusById(idStatus: ID!): TicketStatus,
+
+    """
+    Query to get a ticket status by its name.
+    """
+    statusByName(statusName: String!): TicketStatus,
+
+    """
+    Query to get all ticket statuses.
+    """
+    allStatus: [TicketStatus!]
 }
 
-type Department{
-    idDepartment: Int!,
-    departmentName: String!,
+# Represents a department in the system.
+type Department {
+    # The unique identifier of the department.
+    idDepartment: Int!
+
+    # The name of the department.
+    departmentName: String!
+
+    # The users associated with the department.
     users: [Users]
 }
 
-type ServiceCategories{
-    idCategory: ID!,
+
+# Represents the schema for service categories.
+type ServiceCategories {
+    # The unique identifier for the category.
+    idCategory: ID!
+
+    # The name of the category.
     categoryName: String!
 }
 
-type Services{
-    idService: ID!,
-    serviceName: String!,
-    servicePoster: URL!,
-    serviceDescription: String,
-    idCategory: Int,
+
+# Represents a service offered by the service desk.
+type Services {
+    # The unique identifier of the service.
+    idService: ID!
+
+    # The name of the service.
+    serviceName: String!
+
+    # The URL of the service's poster image.
+    servicePoster: URL!
+
+    # The description of the service.
+    serviceDescription: String
+
+    # The identifier of the category to which the service belongs.
+    idCategory: Int
+
+    # The category to which the service belongs.
     category: ServiceCategories
 }
 
-type TicketStatus{
-    idStatus: ID!,
+
+
+# Represents the status of a ticket.
+
+type TicketStatus {
+    #The unique identifier of the status.
+    idStatus: ID!
+
+    #The name of the status.
     statusName: String!
 }
 
@@ -63,6 +189,31 @@ type Tickets{
     status: TicketStatus,
 }
 
+
+#Represents the roles assigned to a user.
+type UserRoles {
+    #The ID of the role.
+    idRole: ID!
+
+    #The name of the role.
+    roleName: String!
+
+    #The users assigned to this role.
+    users: [Users]
+}
+
+#Represents the roles assigned to a user.
+type UserRoles {
+    #The ID of the role.
+    idRole: ID!
+
+    #The name of the role.
+    roleName: String!
+
+    #The users assigned to this role.
+    users: [Users]
+}
+
 type UserRoles{
     idRole: ID!,
     roleName: String!,
@@ -75,17 +226,39 @@ type UserStates{
     users:[Users] 
 }
 
-type Users{
-    idUser: String!,
-    email: String!,
-    name: NameType!,
-    idDepartment:Int,
-    idRole: Int,
-    idState: Int,
-    password: PasswordType!,
-    recoveryToken: String,
-    userRoles: UserRoles,
-    department: Department,
+#Represents a user in the system.
+type Users {
+    #The unique identifier of the user.
+    idUser: String!
+
+    #The email address of the user.
+    email: String!
+
+    #The name of the user.
+    name: NameType!
+
+    #The ID of the department the user belongs to.
+    idDepartment: Int
+
+    #The ID of the role assigned to the user.
+    idRole: Int
+
+    #The ID of the state of the user.
+    idState: Int
+
+    #The password of the user.
+    password: PasswordType!
+
+    #The recovery token for the user.
+    recoveryToken: String
+
+    #The roles assigned to the user.
+    userRoles: UserRoles
+
+    #The department the user belongs to.
+    department: Department
+
+    #The states associated with the user.
     userStates: UserStates
 }
 
@@ -118,26 +291,59 @@ type Mutation {
     deleteState(idState: Int!): UserStates,
     #Mutation to update or delete an user
     updateUser(dto:UpdateUserDto!): Users,
-    deleteUser(idUser: Int!): Users
+    deleteUser(idUser: Int!): Users,
+    #Mutation to add, update or delete a category
+    addCategory(categoryName:String!): ServiceCategories,
+    updateCategory(idCategory: Int!, categoryName: String!): ServiceCategories,
+    deleteCategory(idCategory: Int!): ServiceCategories,
+     #Mutation to add, update or delete a services
+    addService(serviceName:String!): Services,
+    updateService(dto:UpdateServiceDto!): Services,
+    deleteService(idService: Int!): Services,
+    #Mutation to add, update or delete a ticket status
+    addStatus(serviceName:String!): TicketStatus,
+    updateStatus(idStatus: Int!, statusName: String!): TicketStatus,
+    deleteStatus(idStatus: Int!): TicketStatus,
 }
 
+#Input object type for creating a department.
 input CreateDepartmentDto {
+    """
+    The name of the department.
+    """
     departmentName: String!
 }
 
+#Input type for updating a user.
 input UpdateUserDto {
+    #The ID of the user.
     idUser: String!,
+
+    #The email of the user.
     email: String,
+
+    #The name of the user.
     name: NameType,
-    idDepartment:Int,
+
+    #The ID of the department the user belongs to.
+    idDepartment: Int,
+
+    #The ID of the role assigned to the user.
     idRole: Int,
+
+    #The ID of the state of the user.
     idState: Int,
 }
 
+#Represents the response object for authentication.
 type AuthResponse {
+    #The authentication token.
     token: String!,
+
+    #The user object.
     user: Users!
 }
+
 
 scalar PasswordType,
 scalar NameType,
