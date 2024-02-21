@@ -304,6 +304,8 @@ type Mutation {
     addStatus(serviceName:String!): TicketStatus,
     updateStatus(idStatus: Int!, statusName: String!): TicketStatus,
     deleteStatus(idStatus: Int!): TicketStatus,
+    #Mutation to add, update or a ticket
+    newTicket(dto:NewTicketDto!): Tickets,
 }
 
 #Input object type for creating a department.
@@ -335,6 +337,20 @@ input UpdateUserDto {
     idState: Int,
 }
 
+input UpdateServiceDto{
+    idService: Int!,
+    serviceName: String,
+    servicePoster: URL,
+    serviceDescription: String,
+    idCategory: Int
+}
+
+input NewTicketDto{
+    request:String!,
+    idDepartment: Int!,
+    idService: Int!,
+    serviceDescription: String
+}
 #Represents the response object for authentication.
 type AuthResponse {
     #The authentication token.

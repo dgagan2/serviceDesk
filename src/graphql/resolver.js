@@ -36,6 +36,7 @@ import {
   updateStatus
 } from './ticketStatus/ticketStatus.resolvers.js';
 
+import { newTicket } from './ticket/tickets.resolvers.js';
 /**
  * Represents a regular expression for validating password types.
  *
@@ -51,7 +52,6 @@ const NameType = new RegularExpression('NameType', /^[a-zA-Z0-9 ]$/);
 
 export const resolvers = {
   Query: {
-    hello: () => 'Hello world!',
     departmentById,
     departmetByName,
     allDepartments,
@@ -96,7 +96,8 @@ export const resolvers = {
     updateService,
     addStatus,
     deleteStatus,
-    updateStatus
+    updateStatus,
+    newTicket
   },
   PasswordType,
   NameType
