@@ -20,6 +20,12 @@ const validateUserIsCustomer = async (context) => {
   await checkRoles(user, 'customer');
 };
 
+const validateUserIsAgent = async (context) => {
+  const user = await checkJwtGql(context);
+  await checkRoles(user, 'admin', 'agent');
+  return user;
+};
+
 /**
  * Validates all roles for a given context.
  *
@@ -31,4 +37,4 @@ const validateAllRoles = async (context) => {
   await checkRoles(user, 'customer', 'admin');
 };
 
-export { validateUserIsAdmin, validateUserIsCustomer, validateAllRoles };
+export { validateUserIsAdmin, validateUserIsCustomer, validateAllRoles, validateUserIsAgent };
