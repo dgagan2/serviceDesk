@@ -15,7 +15,7 @@ class ServicesService {
    * @throws {Error} If the service already exists.
    */
   async create ({ serviceName, servicePoster, serviceDescription, idCategory }) {
-    const exist = await prisma.services.findUnique({
+    const exist = await prisma.services.findFirst({
       where: {
         serviceName
       }
@@ -26,7 +26,7 @@ class ServicesService {
     const service = await prisma.services.create({
       data: {
         serviceName,
-        servicePoster,
+        servicePoster: servicePoster.href,
         serviceDescription,
         idCategory
       }
@@ -38,7 +38,11 @@ class ServicesService {
    * Finds all services.
    */
   async find () {
-    const services = await prisma.services.findMany();
+    const services = await prisma.services.findMany({
+      include: {
+        serviceCategories: true
+      }
+    });
     return services;
   }
 
@@ -52,6 +56,9 @@ class ServicesService {
     const service = await prisma.services.findUnique({
       where: {
         idService
+      },
+      include: {
+        serviceCategories: true
       }
     });
     if (!service) {
@@ -72,6 +79,9 @@ class ServicesService {
           contains: serviceName,
           mode: 'insensitive'
         }
+      },
+      include: {
+        serviceCategories: true
       }
     });
     if (!service) {

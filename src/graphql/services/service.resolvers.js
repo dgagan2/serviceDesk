@@ -48,9 +48,9 @@ export const allServices = async (_, __, context) => {
  * @param {any} _ - The placeholder for the parent object.
  * @param {Object} args - The arguments passed to the resolver.
  */
-export const addService = async (_, args, context) => {
+export const addService = async (_, { dto }, context) => {
   await validateUserIsAdmin(context);
-  return service.create(args);
+  return service.create(dto);
 };
 
 /**

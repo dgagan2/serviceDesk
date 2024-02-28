@@ -10,8 +10,8 @@ class DepartmentService {
    * @param {string} departmentName - The name of the department.
    * @throws {Error} - If the department already exists.
    */
-  create (departmentName) {
-    const existingDepartment = prisma.department.findUnique({
+  async create (departmentName) {
+    const existingDepartment = await prisma.department.findUnique({
       where: {
         departmentName
       }

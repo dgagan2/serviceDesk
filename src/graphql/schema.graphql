@@ -156,7 +156,7 @@ type Services {
     idCategory: Int
 
     # The category to which the service belongs.
-    category: ServiceCategories
+    serviceCategories: ServiceCategories
 }
 
 
@@ -230,34 +230,24 @@ type UserStates{
 type Users {
     #The unique identifier of the user.
     idUser: String!
-
     #The email address of the user.
     email: String!
-
     #The name of the user.
-    name: NameType!
-
+    name: String!
     #The ID of the department the user belongs to.
     idDepartment: Int
-
     #The ID of the role assigned to the user.
     idRole: Int
-
     #The ID of the state of the user.
     idState: Int
-
     #The password of the user.
     password: PasswordType!
-
     #The recovery token for the user.
     recoveryToken: String
-
     #The roles assigned to the user.
     userRoles: UserRoles
-
     #The department the user belongs to.
     department: Department
-
     #The states associated with the user.
     userStates: UserStates
 }
@@ -297,11 +287,11 @@ type Mutation {
     updateCategory(idCategory: Int!, categoryName: String!): ServiceCategories,
     deleteCategory(idCategory: Int!): ServiceCategories,
      #Mutation to add, update or delete a services
-    addService(serviceName:String!): Services,
+    addService(dto:AddServiceDto!): Services,
     updateService(dto:UpdateServiceDto!): Services,
     deleteService(idService: Int!): Services,
     #Mutation to add, update or delete a ticket status
-    addStatus(serviceName:String!): TicketStatus,
+    addStatus(statusName:String!): TicketStatus,
     updateStatus(idStatus: Int!, statusName: String!): TicketStatus,
     deleteStatus(idStatus: Int!): TicketStatus,
     #Mutation to add, update or a ticket
@@ -335,6 +325,12 @@ input UpdateUserDto {
 
     #The ID of the state of the user.
     idState: Int,
+}
+input AddServiceDto{
+    serviceName: String!,
+    servicePoster: URL!,
+    serviceDescription: String!,
+    idCategory: Int!
 }
 
 input UpdateServiceDto{

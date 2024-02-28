@@ -50,7 +50,7 @@ export class AuthService {
       email: user.email,
       state: user.idState
     };
-    const token = jsonwebtoken.sign(payload, config.jwtSecret, { expiresIn: '20min' });
+    const token = jsonwebtoken.sign(payload, config.jwtSecret, { expiresIn: '40min' });
     return token;
   }
 

@@ -48,7 +48,7 @@ const PasswordType = new RegularExpression('PasswordType', /^(?=.*[a-zA-Z])(?=.*
  * Represents a regular expression for validating a name type.
  * @typedef {RegExp} NameType
  */
-const NameType = new RegularExpression('NameType', /^[a-zA-Z0-9 ]$/);
+const NameType = new RegularExpression('NameType', /^([a-zA-Z0-9]){3,30}$/);
 
 export const resolvers = {
   Query: {
