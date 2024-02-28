@@ -12,6 +12,9 @@ const serviceRole = new RoleService();
  * @throws {Error} Throws an error if the user's account is not active or if the user does not have the necessary permissions.
  */
 export default async function checkRoles (user, ...roles) {
+  if (!user.state || !user.role) {
+    throw boom.unauthorized('Your account is not active');
+  }
   const { stateName } = await serviceState.findOneById(user.state);
 
   if (stateName !== 'active') {
