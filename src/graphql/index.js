@@ -29,6 +29,7 @@ const useGraphql = async (app) => {
     ]
   });
   await server.start();
+
   app.use(
     '/graphql',
     expressMiddleware(server, {
