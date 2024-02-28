@@ -20,6 +20,7 @@ model comments {
 model department {
   idDepartment   Int       @id @default(autoincrement()) @db.SmallInt
   departmentName String    @unique(map: "departmentName") @db.VarChar(20)
+  services       services[]
   tickets        tickets[]
   users          users[]
 }
@@ -33,10 +34,12 @@ model serviceCategories {
 model services {
   idService          Int                @id @default(autoincrement()) @db.SmallInt
   serviceName        String             @db.VarChar(30)
-  servicePoster      String             @db.VarBit
+  servicePoster      String             @db.VarChar(255)
   serviceDescription String?            @db.VarChar(255)
   idCategory         Int?               @db.SmallInt
   serviceCategories  serviceCategories? @relation(fields: [idCategory], references: [idCategory], onDelete: NoAction, onUpdate: NoAction)
+  idDepartment       Int?               @db.SmallInt
+  department         department?        @relation(fields: [idDepartment], references: [idDepartment], onDelete: NoAction, onUpdate: NoAction)
   tickets            tickets[]
 }
 
@@ -76,6 +79,8 @@ model userStates {
   stateName String  @unique(map: "stateName") @db.VarChar(15)
   users     users[]
 }
+
+
 
 model users {
   idUser                         String      @id @db.VarChar(100)
