@@ -112,7 +112,15 @@ type Query {
     """
     Query to get all ticket statuses.
     """
-    allStatus: [TicketStatus!]
+    allStatus: [TicketStatus!],
+     """
+    Query to get a ticket by ticketNumber.
+    """ 
+    ticketByID(ticketNumber: Int!): Tickets,
+    #ticketByAgent(idAgent:String):[Tickets],
+    ticketByStatus(idStatus:Int!): Tickets,
+    ticketByUser: [Tickets],
+    #allTickets(pageNumber:Int, pageSize:Int): allTickets
 }
 
 # Represents a department in the system.
@@ -181,12 +189,13 @@ type Tickets{
     ticketStatus: Int!,
     serviceDescription: String,
     idAgent: String,
-    updateDate: String,
+    updateDate: DateTime,
     comments: [Comments],
-    user: Users,
-    deparment: Department,
-    service: Services,
-    status: TicketStatus,
+    users_tickets_idUserTousers: Users,
+    users_tickets_idAgentTousers: Users,
+    department: Department,
+    services: Services,
+    ticketStatusToTickets: TicketStatus,
 }
 
 
@@ -296,6 +305,15 @@ type Mutation {
     deleteStatus(idStatus: Int!): TicketStatus,
     #Mutation to add, update or a ticket
     newTicket(dto:NewTicketDto!): Tickets,
+    #deleteTicket(ticketNumber: Int!): Tickets,
+    closetTicket(ticketNumber:Int!): Tickets,
+   
+}
+
+input UpdateTicketDto{
+    ticketNumber: Int!,
+    idAgent: String,
+    idStatus: Int
 }
 
 #Input object type for creating a department.
@@ -356,6 +374,10 @@ type AuthResponse {
     user: Users!
 }
 
+type allTickets{
+    tickets: [Tickets],
+    count: Int
+}
 
 scalar PasswordType,
 scalar NameType,

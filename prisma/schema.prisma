@@ -46,7 +46,7 @@ model services {
 model ticketStatus {
   idStatus                                   Int       @id @default(autoincrement()) @db.SmallInt
   statusName                                 String    @unique(map: "statusName") @db.VarChar(15)
-  tickets_tickets_ticketStatusToticketStatus tickets[] @relation("tickets_ticketStatusToticketStatus")
+  ticketStatusToTicketss                     tickets[] @relation("ticketStatusToTickets")
 }
 
 model tickets {
@@ -61,7 +61,7 @@ model tickets {
   idAgent                                         String?      @db.VarChar(50)
   updateDate                                      DateTime?    @db.Timestamp(6)
   comments                                        comments[]
-  ticketStatus_tickets_ticketStatusToticketStatus ticketStatus @relation("tickets_ticketStatusToticketStatus", fields: [ticketStatus], references: [idStatus], onDelete: NoAction, onUpdate: NoAction)
+  ticketStatusToTickets                           ticketStatus @relation("ticketStatusToTickets", fields: [ticketStatus], references: [idStatus], onDelete: NoAction, onUpdate: NoAction)
   users_tickets_idAgentTousers                    users?       @relation("tickets_idAgentTousers", fields: [idAgent], references: [idUser], onDelete: NoAction)
   department                                      department   @relation(fields: [idDepartment], references: [idDepartment], onDelete: NoAction, onUpdate: NoAction)
   services                                        services     @relation(fields: [idService], references: [idService], onDelete: SetNull)

@@ -4,11 +4,20 @@ import boom from '@hapi/boom';
 /**
  * Retrieves a random user with the role of 'agent'.
  */
-const getUserByAgentRole = async () => {
+export const getUserByAgentRole = async (idService) => {
+  const { idDepartment } = await prisma.services.findUnique({
+    where: {
+      idService
+    }
+  });
+  if (!idDepartment) throw boom.notFound('No hay agentes disponibles para este servicio.');
   const allAgents = await prisma.users.findMany({
     where: {
       userRoles: {
         roleName: 'agent'
+      },
+      department: {
+        idDepartment
       }
     }
   });
@@ -19,12 +28,13 @@ const getUserByAgentRole = async () => {
 /**
  * Retrieves the open status of a ticket.
  */
-const getOpenStatus = () => {
+export const getOpenStatus = () => {
   const openStatus = prisma.ticketStatus.findFirst({
     where: {
-      statusName: 'open'
+      statusName: 'Open'
     }
   });
+  if (!openStatus) throw boom.notFound('Open sratus not found');
   return openStatus;
 };
 
@@ -40,10 +50,7 @@ class TicketService {
  * @param {string} context.sub - The ID of the user creating the ticket.
  * @throws {Error} If there is an error creating the ticket.
  */
-  async create ({ request, idDepartment, idService, serviceDescription }, { sub: idUser }) {
-    const { idUser: idAgent } = await getUserByAgentRole();
-    const { idStatus } = await getOpenStatus();
-
+  async create ({ request, idDepartment, idService, serviceDescription, idUser, ticketStatus, idAgent }) {
     const ticket = prisma.tickets.create({
       data: {
         request,
@@ -52,7 +59,9 @@ class TicketService {
         serviceDescription,
         idUser,
         idAgent,
-        idStatus
+        ticketStatus,
+        creationDate: new Date(),
+        updateDate: new Date()
       }
     });
 
@@ -60,6 +69,26 @@ class TicketService {
       throw boom.badRequest('Error creating ticket');
     }
     return ticket;
+  }
+
+  async findAll (pageNumber, pageSize) {
+    const count = await prisma.tickets.count();
+    const tickets = await prisma.tickets.findMany({
+      include: {
+        department: true,
+        services: true,
+        users_tickets_idAgentTousers: true,
+        users_tickets_idUserTousers: true,
+        comments: true,
+        ticketStatusToTickets: true
+      },
+      take: pageSize,
+      skip: (pageNumber - 1) * pageSize
+    });
+    if (!tickets) {
+      throw boom.notFound('Ticket not found');
+    }
+    return { tickets, count };
   }
 
   /**
@@ -72,6 +101,14 @@ class TicketService {
     const ticket = prisma.tickets.findUnique({
       where: {
         ticketNumber
+      },
+      include: {
+        department: true,
+        services: true,
+        users_tickets_idAgentTousers: true,
+        users_tickets_idUserTousers: true,
+        comments: true,
+        ticketStatusToTickets: true
       }
     });
     if (!ticket) {
@@ -90,6 +127,14 @@ class TicketService {
     const ticket = prisma.tickets.findMany({
       where: {
         idUser
+      },
+      include: {
+        department: true,
+        services: true,
+        users_tickets_idAgentTousers: true,
+        users_tickets_idUserTousers: true,
+        comments: true,
+        ticketStatusToTickets: true
       }
     });
     if (!ticket) {
@@ -108,18 +153,14 @@ class TicketService {
       where: {
         idUser,
         idStatus
-      }
-    });
-  }
-
-  /**
- * Busca los tickets por agente.
- * @param {number} idAgent - El ID del agente.
- */
-  findByAgent (idAgent) {
-    return prisma.tickets.findMany({
-      where: {
-        idAgent
+      },
+      include: {
+        department: true,
+        services: true,
+        users_tickets_idAgentTousers: true,
+        users_tickets_idUserTousers: true,
+        comments: true,
+        ticketStatusToTickets: true
       }
     });
   }
@@ -132,32 +173,22 @@ class TicketService {
  * @param {string} params.idAgent - The ID of the agent to be assigned to the ticket (optional).
  * @param {string} params.idStatus - The ID of the status to be assigned to the ticket (optional).
  */
-  async updateTicket ({ ticketNumber, idAgent, idStatus }) {
-    const ticketExists = await this.findById(ticketNumber);
+  async closeTicket (ticketNumber) {
+    await this.findById(ticketNumber);
+    const { idStatus } = await prisma.ticketStatus.findMany({
+      where: {
+        statusName: 'Close'
+      }
+    });
     const newTicket = await prisma.tickets.update({
       where: {
         ticketNumber
       },
       data: {
-        idAgent: idAgent || ticketExists.idAgent,
-        idStatus: idStatus || ticketExists.idStatus
+        idStatus
       }
     });
     return newTicket;
-  }
-
-  /**
- * Deletes a ticket with the specified ticket number.
- * @param {number} ticketNumber - The ticket number of the ticket to be deleted.
- */
-  delete (ticketNumber) {
-    this.findById(ticketNumber);
-    const ticket = prisma.tickets.delete({
-      where: {
-        ticketNumber
-      }
-    });
-    return ticket;
   }
 }
 export default TicketService;

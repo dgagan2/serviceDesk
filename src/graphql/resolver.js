@@ -36,7 +36,7 @@ import {
   updateStatus
 } from './ticketStatus/ticketStatus.resolvers.js';
 
-import { newTicket } from './ticket/tickets.resolvers.js';
+import { newTicket, ticketByID, ticketByStatus, ticketByUser, closetTicket } from './ticket/tickets.resolvers.js';
 /**
  * Represents a regular expression for validating password types.
  *
@@ -73,7 +73,10 @@ export const resolvers = {
     serviceById,
     allStatus,
     statusById,
-    statusByName
+    statusByName,
+    ticketByID,
+    ticketByStatus,
+    ticketByUser
   },
   Mutation: {
     addDepartment,
@@ -97,7 +100,8 @@ export const resolvers = {
     addStatus,
     deleteStatus,
     updateStatus,
-    newTicket
+    newTicket,
+    closetTicket
   },
   PasswordType,
   NameType
