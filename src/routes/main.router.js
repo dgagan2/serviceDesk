@@ -13,8 +13,8 @@ export function checkJWT () {
 export const routerApi = (app) => {
   const router = express.Router();
   app.use('/api', checkApiKey, router);
-  router.use('/login', checkApiKey, loginRoute);
-  router.use('/register', checkApiKey, registerRoute);
-  router.use('/recovery', checkApiKey, checkJWT(), recovery);
-  router.use('/upload/image', checkApiKey, checkJWT(), uploadImageRoute);
+  router.use('/login', loginRoute);
+  router.use('/register', registerRoute);
+  router.use('/recovery', checkJWT(), recovery);
+  router.use('/upload/image', checkJWT(), uploadImageRoute);
 };
