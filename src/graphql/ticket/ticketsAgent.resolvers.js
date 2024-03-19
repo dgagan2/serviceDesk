@@ -18,7 +18,7 @@ const service = new TicketAgentService();
  * @param {any} _ - The placeholder for the parent object.
  * @param {object} dto - The data transfer object containing the ticket information.
  */
-export const newTicket = async (_, { dto }, context) => {
+export const newAdminTicket = async (_, { dto }, context) => {
   await validateUserIsAgent(context);
   return service.create(dto);
 };
@@ -34,9 +34,9 @@ export const allTickets = async (_, { pageNumber = 1, pageSize = 10 }, context) 
  * @param {any} _ - The placeholder for the parent object.
  * @param {string} idStatus - The ID of the status to filter tickets by.
  */
-export const ticketByStatusAndUser = async (_, {idUser, idStatus }, context) => {
-  const user = await checkJwtGql(context);
-  return service.(idUser, idStatus);
+export const ticketByStatusAndUser = async (_, { idUser, idStatus }, context) => {
+  await checkJwtGql(context);
+  return service.findByUserAndStatus(idUser, idStatus);
 };
 
 /**
@@ -60,4 +60,3 @@ export const updateTicket = async (_, { dto }, context) => {
   await validateUserIsAgent(context);
   return service.updateTicket(dto);
 };
-
