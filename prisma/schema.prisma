@@ -11,7 +11,9 @@ model comments {
   idComment    Int       @id @default(autoincrement()) @db.SmallInt
   ticketNumber Int       @db.SmallInt
   idUser       String    @db.VarChar(50)
+  name         String    @db.VarChar(60)
   creationDate DateTime? @db.Timestamp(6)
+  updateDate   DateTime? @db.Timestamp(6)
   comment      String
   users        users     @relation(fields: [idUser], references: [idUser], onDelete: NoAction)
   tickets      tickets   @relation(fields: [ticketNumber], references: [ticketNumber], onDelete: NoAction, onUpdate: NoAction)
