@@ -117,10 +117,12 @@ type Query {
     Query to get a ticket by ticketNumber.
     """ 
     ticketByID(ticketNumber: Int!): Tickets,
-    #ticketByAgent(idAgent:String):[Tickets],
+    ticketByAgent(idAgent:String):[Tickets],
     ticketByStatus(idStatus:Int!): Tickets,
     ticketByUser: [Tickets],
-    #allTickets(pageNumber:Int, pageSize:Int): allTickets
+    allTickets(pageNumber:Int, pageSize:Int): allTickets,
+    ticketByStatusAndUser( idUser:Int! idStatus:Int!): [Tickets],
+    commentsByTicket(ticketNumber:Int!): [Comments]
 }
 
 # Represents a department in the system.
@@ -266,9 +268,11 @@ type Comments{
     ticketNumber: Int!,
     idUser: String!,
     comment: String!,
+    name: String!,
+    updateDate: DateTime,
     creationDate: DateTime,
-    user: Users,
-    ticket: Tickets
+    users: Users,
+    tickets: Tickets
 }
 
 
@@ -307,7 +311,12 @@ type Mutation {
     newTicket(dto:NewTicketDto!): Tickets,
     #deleteTicket(ticketNumber: Int!): Tickets,
     closetTicket(ticketNumber:Int!): Tickets,
-   
+    newAdminTicket(dto:NewTicketDto!): Tickets,
+    updateTicket(dto:UpdateTicketDto!): Tickets
+    #Mutation to add, update or a delete a comment
+    addComment(ticketNumber: Int!, idUser: String!, comment: String!, name:String!): Comments,
+    editComment(idComment: Int!, comment: String!, ticketNumber: Int!): Comments,
+    deleteComment(idComment: Int!, ticketNumber: Int!): Comments,
 }
 
 input UpdateTicketDto{
@@ -364,6 +373,7 @@ input NewTicketDto{
     idDepartment: Int!,
     idService: Int!,
     serviceDescription: String
+    idUser: String
 }
 #Represents the response object for authentication.
 type AuthResponse {
