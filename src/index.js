@@ -1,23 +1,45 @@
-import express from 'express'
-import logger from 'morgan'
-import { routerApi } from './routes/mainRoutes.js'
-import dotenv from 'dotenv'
-import passport from 'passport'
-import cors from 'cors'
-import jwtStrategy from './services/strategies/jwt.strategy.js'
-dotenv.config()
-const { PORT } = process.env
+import express from 'express';
+import logger from 'morgan';
+import dotenv from 'dotenv';
+import { routerApi } from './routes/main.router.js';
+import { errorHandler, boomErrorHandler } from './middleware/error.handler.js';
+import passport from 'passport';
+import cors from 'cors';
+import { GQLLocalSrategy } from './utils/auth/strategies/local-gql.js';
+import jwtStrategy from './utils/auth/strategies/jwt.strategy.js';
+import localStrategy from './utils/auth/strategies/local.strategy.js';
+import useGraphql from './graphql/index.js';
 
-const app = express()
+dotenv.config();
+const { PORT } = process.env;
 
-app.use(cors())
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-app.use(logger('dev'))
-app.use(passport.initialize())
-passport.use(jwtStrategy)
-routerApi(app)
+const whitelist = ['http://localhost:3000'];
+const options = {
+  origin: (origin, callback) => {
+    if (whitelist.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('no permitido'));
+    }
+  }
+};
+
+const app = express();
+app.use(cors(options));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+await useGraphql(app);
+app.use(passport.initialize());
+passport.use(GQLLocalSrategy);
+passport.use(jwtStrategy);
+passport.use(localStrategy);
+
+app.use(logger('dev'));
+routerApi(app);
+
+app.use(boomErrorHandler);
+app.use(errorHandler);
 
 app.listen(PORT, () => {
-  console.log(`Server is runing on PORT ${PORT}`)
-})
+  console.log(`Server is runing on PORT ${PORT}`);
+});

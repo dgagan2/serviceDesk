@@ -1,7 +1,7 @@
-import { initializeApp } from 'firebase/app';
-import { getStorage } from 'firebase/storage';
-import dotenv from 'dotenv';
-dotenv.config();
+import { initializeApp } from 'firebase/app'
+import { getStorage } from 'firebase/storage'
+import dotenv from 'dotenv'
+dotenv.config()
 const firebaseConfig = {
   apiKey: process.env.APIKEY_FIRE,
   authDomain: process.env.AUTH_DOMAIN,
@@ -9,9 +9,9 @@ const firebaseConfig = {
   storageBucket: process.env.STORAGE_BUCKET,
   messagingSenderId: process.env.MESSAGING_SENDER_ID,
   appId: process.env.APP_ID
-};
+}
 
-const firebaseApp = initializeApp(firebaseConfig);
-const storage = getStorage(firebaseApp);
+const firebaseApp = initializeApp(firebaseConfig)
+const storage = getStorage(firebaseApp)
 
-export default storage;
+export default storage
